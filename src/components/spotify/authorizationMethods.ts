@@ -62,7 +62,6 @@ export async function getAccessToken(clientId:string, code:string) {
     const verifier = localStorage.getItem("verifier");
     const redirectUri = "http://localhost:5173/callback";
 
-    //when to use headers?
     const body = new URLSearchParams();
     body.append("client_id", clientId);
     body.append("grant_type", "authorization_code");

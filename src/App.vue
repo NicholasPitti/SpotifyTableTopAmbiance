@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-//import SpotifyDisplay from './components/spotify/SpotifyDisplay.vue';
-//import HeroBanner from './components/HeroBanner.vue'
-//<HeroBanner :msg="['Hello', 'Bonjour', 'Hola', 'Ciao']" />
 </script>
 
 <template>

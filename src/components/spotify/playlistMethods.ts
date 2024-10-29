@@ -1,6 +1,4 @@
 
-//interface to make PLaylistTracks more readable
-
 interface PlaylistTrackDetails {
       album: {
         name: string;
@@ -43,8 +41,8 @@ export interface Playlist {
     total: number,
     items: PlaylistTracks[]
 }
-//[] abs neccesary here? @@@
 
+//[]
 interface newPlaylist{
     id: string
 }
@@ -58,24 +56,15 @@ async function getPlaylists(accessToken:string|null):Promise<Playlist> {
     return await result.json();
 }
 
-//Always make sure you have the scope
-//doesnt use string literal unless you use back ticks.. also python uses @{} and js uses ${}
-//PLaylistTracks[]
-//is this the issue @@@
 async function getPlaylistItems(accessToken:string|null, id:string):Promise<Playlist> {
-    //get rid of the ME !!!!!
-    //const result = await fetch(`https://api.spotify.com/v1/me/playlists/4H79OTkphBH4pVyPu7aeD7/tracks`, {
     const result = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
         method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
     });
-
     return await result.json();
 }
 
-
 async function addToPlaylist(accessToken:string|null, playlistId:string, trackId:string) {
     const trackUri = "spotify:track:" + trackId
-
     try {
         const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
             method: "POST",
@@ -102,7 +91,6 @@ async function addToPlaylist(accessToken:string|null, playlistId:string, trackId
 
 }
 
-//this is huge
 async function createPlaylist(accessToken:string|null, name:string):Promise<newPlaylist> {
     const body = JSON.stringify({
         name: name,
@@ -122,18 +110,11 @@ async function createPlaylist(accessToken:string|null, name:string):Promise<newP
     return result.json();
 }
 
-//accesss,name,
 async function duplicatePlaylist(accessToken:string|null, name:string, playlistItems:PlaylistTracks[]) {
     const newPlaylist = await createPlaylist(accessToken, name);
-    //const tracks = playlistItems.items
-
-    
-    //technically i need an item from playlist items
-    //and each item has a track property
     const tracks = playlistItems
     for (const track of tracks) {
         await addToPlaylist(accessToken, newPlaylist.id, track.track.id);
-        //console.log(track.track.id);
     }
 
     return newPlaylist
