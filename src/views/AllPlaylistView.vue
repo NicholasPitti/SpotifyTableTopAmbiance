@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {processSpotifyRequests} from '../components/spotify/spotifyScript'
-processSpotifyRequests("/allplaylist");
+processSpotifyRequests("/allplaylist")
 </script>
 
 <template>

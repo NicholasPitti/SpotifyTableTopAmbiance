@@ -1,29 +1,34 @@
 
 async function seekToPosition(access_token:string, trackId:string) {
-    console.log('hi'+access_token+trackId);
+    console.log('hi'+access_token+trackId)
 }
 
-async function startPlayback(accessToken:string|null, playlistId:string|null, position:number,getlikes:boolean,trackId:string) {
-    let contextUri:string|null=null
-    let uri:string[]|null=[`spotify:track:${trackId}`]
-    console.log(trackId+"DIFFERENT???")
+async function startPlayback(accessToken:string|null, playlistId:string|null, position:number,getLikes:boolean,trackId:string) {
+    //console.log("passed track id:"+trackId)
 
-    if(getlikes){
+    const contextUri:string|null=null
+    const uri:string[]|null=[`spotify:track:${trackId}`]
+    //let uri:string[]|null=null
+    //console.log(trackId+"DIFFERENT???")
+
+    //getLikes=true
+    /*
+    if(getLikes){
         //contextUri='https://api.spotify.com/v1/me/tracks'
         uri=[`spotify:track:${trackId}`]
         contextUri=null
         console.log('using URI')
     }else{
-        contextUri=`spotify:playlist:${playlistId}`
+        contextUri=`spotify:playlist:${playlistId}:${trackId}`
         uri=null
         console.log('using contextURI')
     }
-
-    console.log(position+"as index not working for getlikes")
+*/
+    //console.log(position+"as index not working for getlikes")
     const body = JSON.stringify({
         context_uri: contextUri,
         uris:uri
-    });
+    })
     const result = await fetch("https://api.spotify.com/v1/me/player/play", {
         method: "PUT",
         headers: {
@@ -31,15 +36,15 @@ async function startPlayback(accessToken:string|null, playlistId:string|null, po
             'Content-Type': 'application/json'
         },
         body: body
-    });
+    })
 
     if (!result.ok) {
-        const errorText = await result.text();
-        throw new Error(`HTTP error! status: ${result.status}, message: ${errorText}`);
+        const errorText = await result.text()
+        throw new Error(`HTTP error! status: ${result.status}, message: ${errorText}`)
     }
 
-    console.log(trackId)
-    return result.status === 204;
+    
+    return result.status === 204
 }
 
 export { startPlayback, seekToPosition }

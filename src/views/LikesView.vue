@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {processSpotifyRequests} from '../components/spotify/spotifyScript'
-processSpotifyRequests("/likes");
+processSpotifyRequests("/likes")
 </script>
 
 <template>

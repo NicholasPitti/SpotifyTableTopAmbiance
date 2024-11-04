@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {processSpotifyRequests} from '../components/spotify/spotifyScript'
-processSpotifyRequests("/search");
+processSpotifyRequests("/search")
 </script>
 
 <template>

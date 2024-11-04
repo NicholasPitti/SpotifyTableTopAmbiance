@@ -23,9 +23,9 @@ export interface SearchedTracks{
   }
 
 async function searchTrack(accessToken: string, track: string, artist: string): Promise<SearchedTracks> {
-    const encodedTrack = encodeURIComponent(track);
-    const encodedArtist = encodeURIComponent(artist);
-    const url = `https://api.spotify.com/v1/search?q=track:${encodedTrack} artist:${encodedArtist}&type=track`;
+    const encodedTrack = encodeURIComponent(track)
+    const encodedArtist = encodeURIComponent(artist)
+    const url = `https://api.spotify.com/v1/search?q=track:${encodedTrack} artist:${encodedArtist}&type=track`
 
     try {
         const result = await fetch(url, {
@@ -34,16 +34,16 @@ async function searchTrack(accessToken: string, track: string, artist: string): 
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
             }
-        });
+        })
 
         if (!result.ok) {
-            throw new Error(`HTTP error! status: ${result.status}`);
+            throw new Error(`HTTP error! status: ${result.status}`)
         }
 
-        return await result.json();
+        return await result.json()
     } catch (error) {
-        console.error("Error fetching track:", error);
-        throw error;
+        console.error("Error fetching track:", error)
+        throw error
     }
 }
 
