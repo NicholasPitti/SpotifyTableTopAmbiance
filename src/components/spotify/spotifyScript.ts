@@ -2,15 +2,25 @@
 import { redirectToAuthCodeFlow } from './authorizationMethods'
 //import { getPlaylists, getPlaylistItems, duplicatePlaylist } from './playlistMethods'
 import { getPlaylistItems } from './playlistMethods'
+////import { addToQueue } from './playbackMethods'
 import {type Playlist,type PlaylistTracks} from './playlistMethods'
 import {startPlayback} from './playbackMethods'
 import { searchTrack, type SearchedTracks, type TrackItems } from './searchMethods'
-import { onMounted } from 'vue'
+import { onMounted, render } from 'vue'
+import { h } from 'vue'
+import { CaretRightFilled } from "@ant-design/icons-vue"
+import allQueues from '../../../public/queue-tracks.json' assert { type: 'json' }
+//processSporify request is at the top of all Views and lets the code know to populate anything spotify promise related when navigating
+//should i store processed requests?
+//would this be a model or controller?
 
 export async function processSpotifyRequests(navOption:string){
 
   const clientId = "client-id"
-  const playlistId = '3UKLPrFVAO1hsUVeWrYCfK'
+  const playlistId = '3UKLPrFVAO1hsUVeWrYCfK'   //Hard coded playlist id for testing purtposes
+
+  //localStorage.removeItem('access_token') //clear local storage if 1hr has passed
+  //redirectToAuthCodeFlow(clientId)
 /*
   if (!code) {
     localStorage.removeItem('access_token') //clear local storage if 1hr has passed
@@ -18,19 +28,48 @@ export async function processSpotifyRequests(navOption:string){
   }
 */
 
+//restyled buttons and padding, removed redundant list text,removed profile, added queue view as default, create addToQueue method in playbackMethods
+
+
   onMounted(async () => {
     const accessToken = localStorage.getItem('access_token')
     if (!accessToken) {
       redirectToAuthCodeFlow(clientId)
     } else {
    
-    const profile = await getProfile(accessToken)
     const playlistItems = await getPlaylistItems(accessToken, playlistId)
+    console.log(playlistItems)
     const likes=await getProfileLikes(accessToken,0) // gets first 50 items because the offset is 0
+    //const queueTracks=queue1
+    console.log(typeof(allQueues.queues))
     switch(navOption){
       case "/":
         console.log("home")
-        populateWithPlaylist(accessToken, profile, playlistItems,true)
+        //populateWithPlaylist(accessToken, profile, playlistItems,true)
+        //addToQueue(accessToken,'16obHUJN0KaqVyCaV3GwFX');
+        //const queueKeys = Object.keys(allQueues.queues);
+        //const first=queueKeys[0]
+        //"soundbaord" clicking one queue list will start that one
+        
+        //TypeScript features to ensure type safety when accessing object properties dynamically
+        //type guard-> as keyof typeof array
+        populateWithQueueOptions()
+        
+        //console.log(allQueues.queues)
+        //console.log(allQueues.queues[first])
+        
+        
+        
+        /*
+        queueKeys.forEach(key => {
+            console.log(`Key: ${key}, Value:`);
+        });
+        */
+        
+      break
+      case "/sort":
+        console.log("sort")
+        populateWithPlaylist(accessToken, playlistItems,true)
       break
       case "/duplicate":
         console.log("dupe")
@@ -51,7 +90,7 @@ export async function processSpotifyRequests(navOption:string){
       case "/likes":
          console.log("likes")
          //explicit false not neccesary?
-         populateWithPlaylist(accessToken, profile, likes,false)
+         populateWithPlaylist(accessToken, likes,false)
       break
       case "/search":
          console.log("search")
@@ -65,7 +104,23 @@ export async function processSpotifyRequests(navOption:string){
 })
 }
 
-function populateWithPlaylist(accessToken:string|null, profile:UserProfile, playlist:Playlist,dropdown:boolean=false) {
+//vuedraggable lets you drag from one list to another
+//allow for drag and drop searched track and reordering queue before issueing queue
+function populateWithQueueOptions(){
+
+  const queueKeys = Object.keys(allQueues.queues);
+  const firstKey = queueKeys[0];
+  if (firstKey in allQueues.queues) {
+      console.log(allQueues.queues[firstKey as keyof typeof allQueues.queues]);
+  }
+
+  const listElement = document.createElement("li")
+  listElement.textContent = allQueues.queues[firstKey as keyof typeof allQueues.queues].toString()
+
+}
+
+
+function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdown:boolean=false) {
   
   //remove all buttons
   const allButtons = document.querySelectorAll('button')
@@ -74,12 +129,6 @@ function populateWithPlaylist(accessToken:string|null, profile:UserProfile, play
       button.remove()
     }
   })
-
-  if (profile.images[0]) {
-    const profileImage = new Image(200, 200)
-    profileImage.src = profile.images[0].url
-    document.getElementById("avatar")?.appendChild(profileImage)
-  }
   
   let trackId:string
   let button
@@ -88,8 +137,15 @@ function populateWithPlaylist(accessToken:string|null, profile:UserProfile, play
       const listElement = document.createElement("li")
       const playbackElement = document.createElement("button")
       listElement.setAttribute('id', trackId)
-      playbackElement.setAttribute('id', 'button' + trackId)
-      playbackElement.textContent = 'play'
+      playbackElement.setAttribute('id', 'playbutton' + trackId)
+      playbackElement.style.borderRadius='1rem'
+      playbackElement.style.marginLeft='1rem'
+      const iconComponent =  h(CaretRightFilled, {
+        style: { fontSize: '16px' } // Adjust size as needed
+      })
+      const container = document.createElement('div')
+      render(iconComponent, container)
+      playbackElement.appendChild(container.firstElementChild!)
       const artistNames = tracks.track.artists.map(artist => artist.name).join(", ")
       listElement.textContent = tracks.track.name + " - " + artistNames
       document.getElementById("pl")?.appendChild(listElement)
@@ -115,20 +171,25 @@ function populateWithPlaylist(accessToken:string|null, profile:UserProfile, play
                 </optgroup>
             </select>
         `
-
+        /*
         const selectedElement = document.createElement("b")
         selectedElement.setAttribute('id', "sel-id")
         selectedElement.textContent='None'
         selectedElement.style.paddingLeft='1rem'          
         selectedElement.style.paddingRight='1rem'
         document.getElementById(trackId)?.appendChild(selectedElement)
+        */
         document.getElementById(trackId)?.appendChild(dropDownElement)
-        
+        //this can be acomplished w v-bind.. or a ref
+        /*
         dropDownElement.children[1].addEventListener('change', (event:Event) => {
           const select = event.target as HTMLSelectElement
           selectedElement.textContent=select.value          
-          console.log(select.value) ///
+          //console.log(select.value)
         })
+        */
+        /////Why do i need the sel-id
+
 
         /*
         console.log(playlist.href)
@@ -180,13 +241,6 @@ function populateWithQueryResponse(accessToken:string|null, playlist:SearchedTra
     })
 }
 
-async function getProfile(token: string|null): Promise<UserProfile> {
-  const result = await fetch("https://api.spotify.com/v1/me", {
-      method: "GET", headers: { Authorization: `Bearer ${token}` }
-  })
-  return await result.json()
-}
-
 async function getProfileLikes(accessToken:string, offset:number) {
   const result = await fetch(`https://api.spotify.com/v1/me/tracks?limit=50&offset=${offset}`, {
     method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
@@ -195,7 +249,7 @@ async function getProfileLikes(accessToken:string, offset:number) {
   return await result.json()
 }
 
-
+/*
 interface UserProfile {
   country: string
   display_name: string
@@ -219,3 +273,4 @@ interface Image {
   height: number
   width: number
 }
+  */

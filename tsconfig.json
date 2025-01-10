@@ -5,6 +5,10 @@
     "strict": false,
     "noImplicitAny": false
   },
+  "include": [
+  "public/**/*",
+  // other entries...
+  ],
   "files": [],
   "references": [
     {

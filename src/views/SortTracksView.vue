@@ -1,18 +1,11 @@
 <script setup lang="ts">
 import {processSpotifyRequests} from '../components/spotify/spotifyScript'
-import { addToQueue } from '@/components/spotify/playbackMethods'
-processSpotifyRequests("/")
+import { addToPlaylist } from '@/components/spotify/playlistMethods'
+processSpotifyRequests("/sort")
 
 const accessToken = localStorage.getItem('access_token')
-//console.log(accessToken)
+console.log(accessToken)
 
-
-//addToQueue(accessToken, playlistNameIdDict[selectedValue], trackIdFromList);
-
-addToQueue(accessToken!,'')
-//wierd that SortTracksView doesnt enforce this?
-
-/*
 type StringDictionary = { [key: string]: string }
 
 const playlistNameIdDict:StringDictionary={
@@ -24,11 +17,8 @@ const playlistNameIdDict:StringDictionary={
   Combat:"3MmUB7ybRte6AT2ytYRr16",
   Epic:"4EgbdcV25NI4Qz17X4qTo5"
 }
-*/
-
 
 function addToPlaylistAlert() {
-  /*
   const alertMsg="Finalized adding to playlists"
   alert(`Alert: ${alertMsg}!`)
 
@@ -45,6 +35,20 @@ function addToPlaylistAlert() {
       }
     }
   });
+  /*
+  const dropdowns = document.querySelectorAll('[id^="dropdown"]');
+  let trackIdFromList:string|null|undefined
+  dropdowns.forEach((item)=>{
+    if(!item.textContent?.includes('None')){
+      const selectedText:string|null=item.textContent
+      console.log("add"+selectedText)
+      trackIdFromList=item.closest('li')?.getAttribute('id')
+      console.log(trackIdFromList)
+      if(selectedText&&trackIdFromList){
+        addToPlaylist(accessToken,playlistNameIdDict[selectedText],trackIdFromList)
+      }        
+    }
+  })
   */
 }
 

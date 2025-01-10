@@ -11,7 +11,8 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="wrapper">
       
       <nav>
-        <RouterLink to="/">Organize Playlist</RouterLink>
+        <RouterLink to="/">Add To Queue</RouterLink>
+        <RouterLink to="/sort">Sort Tracks</RouterLink>
       <!-- disabeld for now to avoid crowding
         <RouterLink to="/duplicate">Duplicate Playlist</RouterLink>
       -->
