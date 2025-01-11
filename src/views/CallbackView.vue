@@ -8,7 +8,7 @@ import { useRouter } from 'vue-router'
 import { getOrRetrieveAccessToken } from '../components/spotify/authorizationMethods' // Adjust the import path
 
 const router = useRouter()
-const clientId = "client-id" // Move this to an environment variable
+const clientId = "" // Move this to an environment variable
 
 //localStorage.removeItem('access_token')
 

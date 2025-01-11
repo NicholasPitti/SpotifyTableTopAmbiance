@@ -2,14 +2,14 @@
 import { redirectToAuthCodeFlow } from './authorizationMethods'
 //import { getPlaylists, getPlaylistItems, duplicatePlaylist } from './playlistMethods'
 import { getPlaylistItems } from './playlistMethods'
-////import { addToQueue } from './playbackMethods'
+//import { addToQueue } from './playbackMethods'
 import {type Playlist,type PlaylistTracks} from './playlistMethods'
 import {startPlayback} from './playbackMethods'
 import { searchTrack, type SearchedTracks, type TrackItems } from './searchMethods'
 import { onMounted, render } from 'vue'
 import { h } from 'vue'
 import { CaretRightFilled } from "@ant-design/icons-vue"
-import allQueues from '../../../public/queue-tracks.json' assert { type: 'json' }
+import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
 //processSporify request is at the top of all Views and lets the code know to populate anything spotify promise related when navigating
 //should i store processed requests?
 //would this be a model or controller?
@@ -25,7 +25,7 @@ export async function processSpotifyRequests(navOption:string){
   if (!code) {
     localStorage.removeItem('access_token') //clear local storage if 1hr has passed
     redirectToAuthCodeFlow(clientId)
-  }
+  }S
 */
 
 //restyled buttons and padding, removed redundant list text,removed profile, added queue view as default, create addToQueue method in playbackMethods
@@ -41,30 +41,11 @@ export async function processSpotifyRequests(navOption:string){
     console.log(playlistItems)
     const likes=await getProfileLikes(accessToken,0) // gets first 50 items because the offset is 0
     //const queueTracks=queue1
-    console.log(typeof(allQueues.queues))
+    //console.log(typeof(queueTracksData.queues))
     switch(navOption){
       case "/":
         console.log("home")
-        //populateWithPlaylist(accessToken, profile, playlistItems,true)
-        //addToQueue(accessToken,'16obHUJN0KaqVyCaV3GwFX');
-        //const queueKeys = Object.keys(allQueues.queues);
-        //const first=queueKeys[0]
-        //"soundbaord" clicking one queue list will start that one
-        
-        //TypeScript features to ensure type safety when accessing object properties dynamically
-        //type guard-> as keyof typeof array
         populateWithQueueOptions()
-        
-        //console.log(allQueues.queues)
-        //console.log(allQueues.queues[first])
-        
-        
-        
-        /*
-        queueKeys.forEach(key => {
-            console.log(`Key: ${key}, Value:`);
-        });
-        */
         
       break
       case "/sort":
@@ -106,16 +87,21 @@ export async function processSpotifyRequests(navOption:string){
 
 //vuedraggable lets you drag from one list to another
 //allow for drag and drop searched track and reordering queue before issueing queue
-function populateWithQueueOptions(){
 
-  const queueKeys = Object.keys(allQueues.queues);
-  const firstKey = queueKeys[0];
-  if (firstKey in allQueues.queues) {
-      console.log(allQueues.queues[firstKey as keyof typeof allQueues.queues]);
-  }
+//function populateWithQueueOptions(accessToken:string){
+  function populateWithQueueOptions(){
+  const queueData=queueTracksData.queues;
+  const queueKeys = Object.keys(queueData);
 
-  const listElement = document.createElement("li")
-  listElement.textContent = allQueues.queues[firstKey as keyof typeof allQueues.queues].toString()
+  const allQueues:string[][]=queueKeys.map(key => queueData[key as keyof typeof queueData])
+  allQueues.forEach(queue => {
+    queue.forEach(trackID => {
+    const listElement = document.createElement("li")
+    listElement.textContent = trackID
+    document.getElementById("pl")?.appendChild(listElement)
+    });
+  });
+
 
 }
 
@@ -136,6 +122,8 @@ function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdow
       trackId = tracks.track.id
       const listElement = document.createElement("li")
       const playbackElement = document.createElement("button")
+      const trackElement=document.createElement("span")
+      trackElement.textContent = trackId
       listElement.setAttribute('id', trackId)
       playbackElement.setAttribute('id', 'playbutton' + trackId)
       playbackElement.style.borderRadius='1rem'

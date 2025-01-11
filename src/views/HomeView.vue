@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {processSpotifyRequests} from '../components/spotify/spotifyScript'
-import { addToQueue } from '@/components/spotify/playbackMethods'
+////import { addToQueue } from '@/components/spotify/playbackMethods'
 processSpotifyRequests("/")
 
 const accessToken = localStorage.getItem('access_token')
@@ -8,8 +8,8 @@ const accessToken = localStorage.getItem('access_token')
 
 
 //addToQueue(accessToken, playlistNameIdDict[selectedValue], trackIdFromList);
-
-addToQueue(accessToken!,'')
+if(!1)console.log(accessToken)
+//addToQueue(accessToken!,'')
 //wierd that SortTracksView doesnt enforce this?
 
 /*
