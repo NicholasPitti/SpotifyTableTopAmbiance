@@ -32,6 +32,17 @@ export interface PlaylistTracks{
   track: PlaylistTrackDetails
 }
 
+export interface PlaylistCollection {
+  href: string,
+  limit: number,
+  next: string,
+  offset: number,
+  previous: string,
+  total: number,
+  name: string,
+  items: Playlist[]
+}
+
 export interface Playlist {
   href: string,
   limit: number,
@@ -39,6 +50,7 @@ export interface Playlist {
   offset: number,
   previous: string,
   total: number,
+  name: string,
   items: PlaylistTracks[]
 }
 
@@ -48,7 +60,7 @@ interface newPlaylist{
 }
 
 
-async function getPlaylists(accessToken:string|null):Promise<Playlist> {
+async function getPlaylistCollection(accessToken:string|null):Promise<PlaylistCollection> {
   const result = await fetch("https://api.spotify.com/v1/me/playlists", {
       method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
   })
@@ -120,4 +132,4 @@ async function duplicatePlaylist(accessToken:string|null, name:string, playlistI
   return newPlaylist
 }
 
-export { getPlaylists, getPlaylistItems, addToPlaylist, createPlaylist, duplicatePlaylist }
+export { getPlaylistCollection, getPlaylistItems, addToPlaylist, createPlaylist, duplicatePlaylist }

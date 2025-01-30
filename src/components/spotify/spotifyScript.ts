@@ -1,10 +1,8 @@
 
 import { redirectToAuthCodeFlow } from './authorizationMethods'
-//import { getPlaylists, getPlaylistItems, duplicatePlaylist } from './playlistMethods'
-import { getPlaylistItems } from './playlistMethods'
-//import { addToQueue } from './playbackMethods'
-import {type Playlist,type PlaylistTracks} from './playlistMethods'
-import {startPlayback} from './playbackMethods'
+import { getPlaylistCollection, getPlaylistItems, duplicatePlaylist } from './playlistMethods'
+import {type Playlist,type PlaylistTracks,type PlaylistCollection} from './playlistMethods'
+import {addToQueue, startPlayback} from './playbackMethods'
 import { searchTrack, type SearchedTracks, type TrackItems } from './searchMethods'
 import { onMounted, render } from 'vue'
 import { h } from 'vue'
@@ -14,10 +12,14 @@ import queueTracksData from '../../../public/queue-tracks.json' assert { type: '
 //should i store processed requests?
 //would this be a model or controller?
 
+//Problem. this file is responsible for both logic and visual populating of view
+//There should be a way to separate that
+
 export async function processSpotifyRequests(navOption:string){
 
-  const clientId = "client-id"
-  const playlistId = '3UKLPrFVAO1hsUVeWrYCfK'   //Hard coded playlist id for testing purtposes
+  const clientId = ""
+  //const playlistId = '3UKLPrFVAO1hsUVeWrYCfK'   //Hard coded playlist id for testing purtposes
+  const playlistId = '3UKLPrFVAO1hsUVeWrYCfK' 
 
   //localStorage.removeItem('access_token') //clear local storage if 1hr has passed
   //redirectToAuthCodeFlow(clientId)
@@ -28,50 +30,52 @@ export async function processSpotifyRequests(navOption:string){
   }S
 */
 
-//restyled buttons and padding, removed redundant list text,removed profile, added queue view as default, create addToQueue method in playbackMethods
-
+//temporaary vriable so that duplicate doesnt fire off when i navigate to it
+const apiDisabled=true
 
   onMounted(async () => {
     const accessToken = localStorage.getItem('access_token')
     if (!accessToken) {
       redirectToAuthCodeFlow(clientId)
     } else {
-   
+    //gives tracks objects, not jsut their ids
     const playlistItems = await getPlaylistItems(accessToken, playlistId)
-    console.log(playlistItems)
     const likes=await getProfileLikes(accessToken,0) // gets first 50 items because the offset is 0
-    //const queueTracks=queue1
-    //console.log(typeof(queueTracksData.queues))
     switch(navOption){
       case "/":
         console.log("home")
-        populateWithQueueOptions()
+        if(!apiDisabled)
+        populateWithQueueOptions(accessToken)
         
       break
       case "/sort":
         console.log("sort")
+        if(apiDisabled)
         populateWithPlaylist(accessToken, playlistItems,true)
       break
       case "/duplicate":
         console.log("dupe")
-        /*
-         const newPlaylist=await duplicatePlaylist(accessToken,"newPlaylistTest",playlistItems.items)
-         const newplaylistItems = await getPlaylistItems(accessToken, newPlaylist.id)
-         populateWithPlaylist(accessToken, profile, newplaylistItems)
-         */
+        if(!apiDisabled){
+          const newPlaylist=await duplicatePlaylist(accessToken,"newPlaylistTest",playlistItems.items)
+          const newplaylistItems = await getPlaylistItems(accessToken, newPlaylist.id)
+          populateWithPlaylist(accessToken, newplaylistItems)
+        }
       break
       case "/allplaylist":
-        console.log("get pl")
-        /*
-        const playlists=await getPlaylists(playlistId)
-        populateWithPlaylist(accessToken, profile, playlists)
-        console.log(" all playlists ")
-        */
+        console.log("all pls")
+        if(apiDisabled){
+        const playlists=await getPlaylistCollection(accessToken)
+        console.log("@@@@ before populate playlists :"+playlists)
+        populateWithPlaylistCollection(accessToken, playlists)
+        }
       break
       case "/likes":
          console.log("likes")
          //explicit false not neccesary?
          populateWithPlaylist(accessToken, likes,false)
+         //need a button to confirm adding a liked track to a queue
+         //queue doesnt exist then create it
+         //list existing
       break
       case "/search":
          console.log("search")
@@ -88,17 +92,23 @@ export async function processSpotifyRequests(navOption:string){
 //vuedraggable lets you drag from one list to another
 //allow for drag and drop searched track and reordering queue before issueing queue
 
-//function populateWithQueueOptions(accessToken:string){
-  function populateWithQueueOptions(){
+function populateWithQueueOptions(accessToken:string){
   const queueData=queueTracksData.queues;
   const queueKeys = Object.keys(queueData);
-
   const allQueues:string[][]=queueKeys.map(key => queueData[key as keyof typeof queueData])
   allQueues.forEach(queue => {
+    const qContainer = document.createElement("div")
+    qContainer.setAttribute('id',`qContainer-${queue}`)
+    qContainer.style.paddingBottom='1rem'
+    document.getElementById("pl")?.appendChild(qContainer)
     queue.forEach(trackID => {
+    //queueTrackDraggable compent so li becomes draggable
+    //might need to use h & render again
     const listElement = document.createElement("li")
+    document.getElementById(`qContainer-${queue}`)?.appendChild(listElement)
     listElement.textContent = trackID
-    document.getElementById("pl")?.appendChild(listElement)
+    //document.getElementById("qContainer")?.appendChild(listElement)
+    addToQueue(accessToken,trackID)
     });
   });
 
@@ -106,9 +116,21 @@ export async function processSpotifyRequests(navOption:string){
 }
 
 
+function populateWithPlaylistCollection(accessToken:string|null, playlist:PlaylistCollection) {
+  //console.log("type of playlist"+typeof(playlist))
+
+    playlist.items.forEach((playlists:Playlist) => {
+      const listElement = document.createElement("li")
+      listElement.textContent = playlists.name+playlists.href
+      document.getElementById("pl")?.appendChild(listElement)
+        const playlistIdElement = document.createElement("i")
+        playlistIdElement.setAttribute('id', "pl-id")
+    }) 
+}
+
 function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdown:boolean=false) {
   
-  //remove all buttons
+  //why remove all buttons?
   const allButtons = document.querySelectorAll('button')
   allButtons.forEach(button=>{
     if(button.textContent?.trim().toLowerCase()==='play'){
@@ -137,6 +159,7 @@ function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdow
       const artistNames = tracks.track.artists.map(artist => artist.name).join(", ")
       listElement.textContent = tracks.track.name + " - " + artistNames
       document.getElementById("pl")?.appendChild(listElement)
+      document.getElementById("pl")?.appendChild(trackElement)
       document.getElementById(trackId)?.appendChild(playbackElement)
 
       //if dropdown then organize playlist
@@ -199,7 +222,7 @@ function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdow
       const extractedPlaylistId = getPlaylistId(url)
       //console.log("btn"+trackId)
       //track ids are definately diff
-      button = document.getElementById('button' + trackId)
+      button = document.getElementById('playbutton' + trackId) ///
       const buttonTrack=trackId
 
       if (button) {
@@ -216,6 +239,7 @@ function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdow
       }   
     }) 
 }
+
 
 function populateWithQueryResponse(accessToken:string|null, playlist:SearchedTracks) {  
   let trackId:string

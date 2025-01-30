@@ -11,13 +11,13 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="wrapper">
       
       <nav>
-        <RouterLink to="/">Add To Queue</RouterLink>
-        <RouterLink to="/sort">Sort Tracks</RouterLink>
+        <RouterLink to="/">Add Tracks To Queue</RouterLink>
+        <RouterLink to="/likes">Likes</RouterLink>
+        <RouterLink to="/allplaylist">Playlist Collection</RouterLink>
+        <RouterLink to="/sort">Add Tracks To Playlist</RouterLink>
       <!-- disabeld for now to avoid crowding
         <RouterLink to="/duplicate">Duplicate Playlist</RouterLink>
       -->
-        <RouterLink to="/allplaylist">Get Playlists</RouterLink>
-        <RouterLink to="/likes">Get All Likes</RouterLink>
         <RouterLink to="/search">Search</RouterLink>
       </nav>
     </div>
