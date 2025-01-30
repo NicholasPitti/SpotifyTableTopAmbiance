@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {processSpotifyRequests} from '../components/spotify/spotifyScript'
-import { addToPlaylist } from '@/components/spotify/playlistMethods'
+import {processSpotifyRequests} from '../components/spotifyMethods/spotifyScript'
+import { addToPlaylist } from '@/components/spotifyMethods/playlistMethods'
 processSpotifyRequests("/sort")
 
 const accessToken = localStorage.getItem('access_token')

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {processSpotifyRequests} from '../components/spotify/spotifyScript'
+import {processSpotifyRequests} from '../components/spotifyMethods/spotifyScript'
 processSpotifyRequests("/likes")
 </script>
 

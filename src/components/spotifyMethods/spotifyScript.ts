@@ -21,25 +21,22 @@ export async function processSpotifyRequests(navOption:string){
   //const playlistId = '3UKLPrFVAO1hsUVeWrYCfK'   //Hard coded playlist id for testing purtposes
   const playlistId = '3UKLPrFVAO1hsUVeWrYCfK' 
 
-  //localStorage.removeItem('access_token') //clear local storage if 1hr has passed
-  //redirectToAuthCodeFlow(clientId)
-/*
-  if (!code) {
-    localStorage.removeItem('access_token') //clear local storage if 1hr has passed
-    redirectToAuthCodeFlow(clientId)
-  }S
-*/
-
 //temporaary vriable so that duplicate doesnt fire off when i navigate to it
 const apiDisabled=true
 
   onMounted(async () => {
+
+    //const accessToken = localStorage.getItem('access_token')
+    
     const accessToken = localStorage.getItem('access_token')
     if (!accessToken) {
-      redirectToAuthCodeFlow(clientId)
+      //redirectToAuthCodeFlow(clientId)
     } else {
+    
     //gives tracks objects, not jsut their ids
     const playlistItems = await getPlaylistItems(accessToken, playlistId)
+    
+    
     const likes=await getProfileLikes(accessToken,0) // gets first 50 items because the offset is 0
     switch(navOption){
       case "/":
@@ -84,7 +81,9 @@ const apiDisabled=true
          populateWithQueryResponse(accessToken, track)         
       break
       default: console.log("default")
-    }    
+    }
+    
+    
   }
 })
 }

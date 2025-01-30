@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getOrRetrieveAccessToken } from '../components/spotify/authorizationMethods' // Adjust the import path
+import { getOrRetrieveAccessToken } from '../components/spotifyMethods/authorizationMethods' // Adjust the import path
 
 const router = useRouter()
 const clientId = "" // Move this to an environment variable

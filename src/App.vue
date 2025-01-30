@@ -1,25 +1,35 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import SpotifyDataLoader from './components/dashboard/SpotifyDataLoader.vue'
+import AuthenticationButtons from './components/dashboard/AuthenticationButtons.vue'
+
 </script>
 
 <template>
   <header>
-    <RouterLink to="/">
-    <img alt="Home" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-    </RouterLink>
 
-    <div class="wrapper">
-      
-      <nav>
-        <RouterLink to="/">Add Tracks To Queue</RouterLink>
-        <RouterLink to="/likes">Likes</RouterLink>
-        <RouterLink to="/allplaylist">Playlist Collection</RouterLink>
-        <RouterLink to="/sort">Add Tracks To Playlist</RouterLink>
-      <!-- disabeld for now to avoid crowding
-        <RouterLink to="/duplicate">Duplicate Playlist</RouterLink>
-      -->
-        <RouterLink to="/search">Search</RouterLink>
-      </nav>
+    <div style="display:flex; flex-direction:column">
+      <RouterLink to="/">
+      <img alt="Home" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+      </RouterLink>
+
+
+      <AuthenticationButtons></AuthenticationButtons>
+      <SpotifyDataLoader></SpotifyDataLoader>
+
+      <div class="wrapper">
+        
+        <nav>
+          <RouterLink to="/">Add Tracks To Queue</RouterLink>
+          <RouterLink to="/likes">Likes</RouterLink>
+          <RouterLink to="/allplaylist">Playlist Collection</RouterLink>
+          <RouterLink to="/sort">Add Tracks To Playlist</RouterLink>
+        <!-- disabeld for now to avoid crowding
+          <RouterLink to="/duplicate">Duplicate Playlist</RouterLink>
+        -->
+          <RouterLink to="/search">Search</RouterLink>
+        </nav>
+      </div>
     </div>
   </header>
   <RouterView />

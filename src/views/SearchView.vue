@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {processSpotifyRequests} from '../components/spotify/spotifyScript'
+import {processSpotifyRequests} from '../components/spotifyMethods/spotifyScript'
 processSpotifyRequests("/search")
 //Using this module too many times in quick sucession will cause results to be slow for a moment.
 //this module should be a component that is used in all other modules, as a supplementary tool
