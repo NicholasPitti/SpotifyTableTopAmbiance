@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import SpotifyDataLoader from './components/dashboard/SpotifyDataLoader.vue'
+import SpotifyDashboard from './components/dashboard/SpotifyDashboard.vue'
 import AuthenticationButtons from './components/dashboard/AuthenticationButtons.vue'
 
 </script>
@@ -10,12 +10,12 @@ import AuthenticationButtons from './components/dashboard/AuthenticationButtons.
 
     <div style="display:flex; flex-direction:column">
       <RouterLink to="/">
-      <img alt="Home" class="logo" src="@/assets/logo.svg" width="125" height="125" />
       </RouterLink>
 
-
+      
       <AuthenticationButtons></AuthenticationButtons>
-      <SpotifyDataLoader></SpotifyDataLoader>
+
+      <SpotifyDashboard></SpotifyDashboard>
 
       <div class="wrapper">
         
@@ -29,6 +29,11 @@ import AuthenticationButtons from './components/dashboard/AuthenticationButtons.
         -->
           <RouterLink to="/search">Search</RouterLink>
         </nav>
+        <h1>POPULATE WITH QUEUE ITEMS</h1>
+        <div>Conditionally render queue view</div>
+        <div>Create drag and drop dockable layouts</div>
+        <div>would require an animation so user sees preview and knows they are dragging</div>
+
       </div>
     </div>
   </header>
@@ -45,13 +50,22 @@ header {
   display: block;
   margin: 0 auto 2rem;
 }
-
+/*
 nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
 }
+*/
+
+nav {
+    text-align: left;
+    margin-left: -1rem;
+    font-size: 1rem;
+    padding: 1rem 0;
+    margin-top: 1rem;
+  }
 
 nav a.router-link-exact-active {
   color: var(--color-text);
@@ -74,7 +88,7 @@ nav a:first-of-type {
 @media (min-width: 1024px) {
   header {
     display: flex;
-    place-items: center;
+    /*place-items: center;*/
     padding-right: calc(var(--section-gap) / 2);
   }
 
@@ -88,13 +102,5 @@ nav a:first-of-type {
     flex-wrap: wrap;
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
 }
 </style>

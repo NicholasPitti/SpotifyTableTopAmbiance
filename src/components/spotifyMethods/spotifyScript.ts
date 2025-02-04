@@ -17,7 +17,7 @@ import queueTracksData from '../../../public/queue-tracks.json' assert { type: '
 
 export async function processSpotifyRequests(navOption:string){
 
-  const clientId = ""
+  //const clientId = ""
   //const playlistId = '3UKLPrFVAO1hsUVeWrYCfK'   //Hard coded playlist id for testing purtposes
   const playlistId = '3UKLPrFVAO1hsUVeWrYCfK' 
 

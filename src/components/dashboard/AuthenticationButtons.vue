@@ -9,7 +9,7 @@
   }
 */
 import { redirectToAuthCodeFlow } from '../spotifyMethods/authorizationMethods'
-const clientId="e5ef250c75b540dd9184a714c22fe195"
+const clientId=""
 
 function removeAccessToken(){
     localStorage.removeItem('access_token')

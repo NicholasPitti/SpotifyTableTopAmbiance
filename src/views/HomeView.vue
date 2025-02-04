@@ -51,15 +51,16 @@ function addToPlaylistAlert() {
 </script>
 
 <template>
-      <section id="profile">
-      <h2>Logged in</h2>
-      <button @click="addToPlaylistAlert">Add to playlists</button>
+  <div class="">
+    <section id="profile">
+      <button @click="addToPlaylistAlert">this doesnt do anything in the home view. look at sorttracks vue</button>
       <ul>
         <ul id="pl">
-          <li style="list-style-type:none;"><b> PLAYLIST: </b><i id="pl-id">id for currently displayed playlist pending from dashboard...</i>   </li>
+          <li style="list-style-type:none;"><b> PLAYLIST:</b>   </li>
         </ul>
       </ul>
     </section>
+</div>
 </template>
 
 <style scoped>

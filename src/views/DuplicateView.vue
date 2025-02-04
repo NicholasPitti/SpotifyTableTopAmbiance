@@ -6,16 +6,13 @@ processSpotifyRequests("/duplicate")
 <template>
   <div class="duplicate">
     <section id="profile">
-  <h2>Logged in as <span id="displayName"></span></h2>
-  <span id="avatar"></span>
-  <ul>
-
-    <ul id="pl">
-      <li style="list-style-type:none;"><b> PLAYLIST:</b>   </li>
-    </ul>
-  </ul>
-</section>
-  </div>
+      <ul>
+        <ul id="pl">
+          <li style="list-style-type:none;"><b> PLAYLIST:</b>   </li>
+        </ul>
+      </ul>
+    </section>
+</div>
 </template>
 
 <style>

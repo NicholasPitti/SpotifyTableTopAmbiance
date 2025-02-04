@@ -10,16 +10,13 @@ processSpotifyRequests("/search")
 <template>
   <div class="search">
     <section id="profile">
-  <h2>Add searched to queue <span id="displayName"></span></h2>
-  <span id="avatar"></span>
-  <ul>
-
-    <ul id="pl">
-      <li style="list-style-type:none;"><b> Search Results:</b>   </li>
-    </ul>
-  </ul>
-</section>
-  </div>
+      <ul>
+        <ul id="pl">
+          <li style="list-style-type:none;"><b> PLAYLIST:</b>   </li>
+        </ul>
+      </ul>
+    </section>
+</div>
 </template>
 
 <style>
