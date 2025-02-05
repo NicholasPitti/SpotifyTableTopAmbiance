@@ -9,6 +9,7 @@
   }
 */
 import { redirectToAuthCodeFlow } from '../spotifyMethods/authorizationMethods'
+
 const clientId=""
 
 function removeAccessToken(){

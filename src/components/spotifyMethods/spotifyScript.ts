@@ -16,26 +16,13 @@ interface QueueTracksData {
 }
 const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
 
-//processSporify request is at the top of all Views and lets the code know to populate anything spotify promise related when navigating
-//should i store processed requests?
-//would this be a model or controller?
-
-//Problem. this file is responsible for both logic and visual populating of view
-//There should be a way to separate that
-
 export async function processSpotifyRequests(navOption:string){
-
   //const clientId = ""
-  //const playlistId = '3UKLPrFVAO1hsUVeWrYCfK'   //Hard coded playlist id for testing purtposes
   const playlistId = '3UKLPrFVAO1hsUVeWrYCfK' 
 
-//temporaary vriable so that duplicate doesnt fire off when i navigate to it
-const apiDisabled=true
+const apiDisabled=true; //temporaary var that limits code excecution
 
   onMounted(async () => {
-
-    //const accessToken = localStorage.getItem('access_token')
-    
     const accessToken = localStorage.getItem('access_token')
     if (!accessToken) {
       //redirectToAuthCodeFlow(clientId)
@@ -43,23 +30,18 @@ const apiDisabled=true
     
     //gives tracks objects, not jsut their ids
     const playlistItems = await getPlaylistItems(accessToken, playlistId)
-    
-    
     const likes=await getProfileLikes(accessToken,0) // gets first 50 items because the offset is 0
     switch(navOption){
       case "/":
-        console.log("home")
         if(apiDisabled)
         populateWithQueueOptions(accessToken)
         
       break
       case "/sort":
-        console.log("sort")
         if(apiDisabled)
         populateWithPlaylist(accessToken, playlistItems,true)
       break
       case "/duplicate":
-        console.log("dupe")
         if(!apiDisabled){
           const newPlaylist=await duplicatePlaylist(accessToken,"newPlaylistTest",playlistItems.items)
           const newplaylistItems = await getPlaylistItems(accessToken, newPlaylist.id)
@@ -67,15 +49,12 @@ const apiDisabled=true
         }
       break
       case "/allplaylist":
-        console.log("all pls")
         if(apiDisabled){
         const playlists=await getPlaylistCollection(accessToken)
-        console.log("@@@@ before populate playlists :"+playlists)
         populateWithPlaylistCollection(accessToken, playlists)
         }
       break
       case "/likes":
-         console.log("likes")
          //explicit false not neccesary?
          populateWithPlaylist(accessToken, likes,false)
          //need a button to confirm adding a liked track to a queue
@@ -83,7 +62,6 @@ const apiDisabled=true
          //list existing
       break
       case "/search":
-         console.log("search")
          const track=await searchTrack(accessToken,"3's & 7's","Queens of the Stone Age")
          //console.log(track)
          populateWithQueryResponse(accessToken, track)         
@@ -95,9 +73,6 @@ const apiDisabled=true
   }
 })
 }
-
-//vuedraggable lets you drag from one list to another
-//allow for drag and drop searched track and reordering queue before issueing queue
 
 function populateWithQueueOptions(accessToken:string){
   const queueData=typedQueueTracksData.queues
@@ -189,36 +164,10 @@ function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdow
                 </optgroup>
             </select>
         `
-        /*
-        const selectedElement = document.createElement("b")
-        selectedElement.setAttribute('id', "sel-id")
-        selectedElement.textContent='None'
-        selectedElement.style.paddingLeft='1rem'          
-        selectedElement.style.paddingRight='1rem'
-        document.getElementById(trackId)?.appendChild(selectedElement)
-        */
+
         document.getElementById(trackId)?.appendChild(dropDownElement)
-        //this can be acomplished w v-bind.. or a ref
-        /*
-        dropDownElement.children[1].addEventListener('change', (event:Event) => {
-          const select = event.target as HTMLSelectElement
-          selectedElement.textContent=select.value          
-          //console.log(select.value)
-        })
-        */
-        /////Why do i need the sel-id
 
-
-        /*
-        console.log(playlist.href)
-        const playlistIdElement = document.createElement("i")
-        playlistIdElement.setAttribute('id', "pl-id")
-        //playlistIdElement.style.display='none'
-        document.getElementById(trackId)?.appendChild(playlistIdElement)
-        */
       }
-
-      
 
 
       function getPlaylistId(url:string) {
@@ -269,29 +218,3 @@ async function getProfileLikes(accessToken:string, offset:number) {
 
   return await result.json()
 }
-
-/*
-interface UserProfile {
-  country: string
-  display_name: string
-  email: string
-  explicit_content: {
-      filter_enabled: boolean,
-      filter_locked: boolean
-  },
-  external_urls: { spotify: string }
-  followers: { href: string; total: number; }
-  href: string
-  id: string
-  images: Image[]
-  product: string
-  type: string
-  uri: string
-}
-
-interface Image {
-  url: string
-  height: number
-  width: number
-}
-  */
