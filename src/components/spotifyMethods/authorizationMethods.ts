@@ -1,22 +1,27 @@
 
 const scope = "user-read-private user-read-email user-library-read playlist-read-private user-modify-playback-state playlist-modify-public"
-
-export async function getOrRetrieveAccessToken(clientId: string, code: string) {
-    let accessToken = localStorage.getItem('access_token')
-
-    if (!accessToken) {
-        try {
-            accessToken = await getAccessToken(clientId, code)
-
-            if(typeof accessToken==='string'){
-                localStorage.setItem('access_token', accessToken)
-            }
-        } catch (error) {
-            console.error("Error obtaining new access token:", error)
-            throw error
-        }
+import { useAccessTokenStore } from '@/stores/accessToken'
+const storeToken = useAccessTokenStore()
+/**
+    async checkAndGetAccessToken(){ //refreshing an api call while no acces Token will trigger this.. is there a way to pause that like a modal subroutine?
+      if(this.token===0){
+        await  this.reAuthenticateToken; //call method of this object
+      }
+    },
+    async reAuthenticateToken(){
+      await
+      redirectToAuthCodeFlow(clientId);//get verifier
+      //updat token after getting verifier
+      this.token = 
     }
-
+ */
+export async function getOrRetrieveAccessToken(clientId: string, code: string) {
+    //letoken = localStorage.getItem('access_token')
+            const accessToken = await getAccessToken(clientId, code)
+            //if(typeof accessToken==='string'){
+                storeToken.storedToken=accessToken
+                //localStorage.setItem('access_token', accessToken)
+            //}s
     return accessToken
 }
 

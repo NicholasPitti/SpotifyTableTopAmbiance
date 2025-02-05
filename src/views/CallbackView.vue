@@ -6,9 +6,10 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getOrRetrieveAccessToken } from '../components/spotifyMethods/authorizationMethods' // Adjust the import path
-
+import { useClientStore } from '../stores/clientId'
+//object that has state and action
+const clientId=useClientStore()
 const router = useRouter()
-const clientId = ""
 
 //localStorage.removeItem('access_token')
 
@@ -19,7 +20,7 @@ onMounted(async () => {
   if (code) {
     try {
       
-      await getOrRetrieveAccessToken(clientId, code)
+      await getOrRetrieveAccessToken(clientId.storedClientId, code)
       router.push('/') // Redirect to home after successful authentication
     } catch (error) {
       console.error("Authentication error:", error)

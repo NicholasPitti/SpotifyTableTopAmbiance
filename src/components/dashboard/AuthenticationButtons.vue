@@ -9,15 +9,18 @@
   }
 */
 import { redirectToAuthCodeFlow } from '../spotifyMethods/authorizationMethods'
+import { useClientStore } from '../../stores/clientId'
+//object that has state and action
+const clientId=useClientStore()
 
-const clientId=""
-
+//you wont need this function once pinia stores
+//
 function removeAccessToken(){
     localStorage.removeItem('access_token')
 }
 
 function reAuthenticateToken(){
-    redirectToAuthCodeFlow(clientId)
+    redirectToAuthCodeFlow(clientId.storedClientId)
 }
 
 </script>

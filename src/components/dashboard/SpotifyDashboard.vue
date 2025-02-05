@@ -39,10 +39,12 @@ import SearchTrackWidget from './SearchTrackWidget.vue';
         console.log("@@@@ before populate playlists :"+playlists)
         populateWithPlaylistCollection(accessToken, playlists)
    */ 
+
 </script>
 
 <template>
   <div class="">
+<p>{{counter.count}}</p>
 <SearchTrackWidget></SearchTrackWidget>
 <ListPlayable></ListPlayable>
   
