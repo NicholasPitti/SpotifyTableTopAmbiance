@@ -1,5 +1,5 @@
 
-import { redirectToAuthCodeFlow } from './authorizationMethods'
+//import { redirectToAuthCodeFlow } from './authorizationMethods'
 import { getPlaylistCollection, getPlaylistItems, duplicatePlaylist } from './playlistMethods'
 import {type Playlist,type PlaylistTracks,type PlaylistCollection} from './playlistMethods'
 import {addToQueue, startPlayback} from './playbackMethods'
@@ -41,7 +41,7 @@ const apiDisabled=true
     switch(navOption){
       case "/":
         console.log("home")
-        if(!apiDisabled)
+        if(apiDisabled)
         populateWithQueueOptions(accessToken)
         
       break
@@ -92,9 +92,12 @@ const apiDisabled=true
 //allow for drag and drop searched track and reordering queue before issueing queue
 
 function populateWithQueueOptions(accessToken:string){
+  
   const queueData=queueTracksData.queues;
   const queueKeys = Object.keys(queueData);
-  const allQueues:string[][]=queueKeys.map(key => queueData[key as keyof typeof queueData])
+  console.log(queueKeys)
+  console.log(queueData)
+  const allQueues=queueKeys.map(key => queueData[key as keyof typeof queueData])
   allQueues.forEach(queue => {
     const qContainer = document.createElement("div")
     qContainer.setAttribute('id',`qContainer-${queue}`)
@@ -107,7 +110,7 @@ function populateWithQueueOptions(accessToken:string){
     document.getElementById(`qContainer-${queue}`)?.appendChild(listElement)
     listElement.textContent = trackID
     //document.getElementById("qContainer")?.appendChild(listElement)
-    addToQueue(accessToken,trackID)
+    ///addToQueue(accessToken,trackID)  //l33t
     });
   });
 
@@ -209,6 +212,8 @@ function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdow
         document.getElementById(trackId)?.appendChild(playlistIdElement)
         */
       }
+
+      
 
 
       function getPlaylistId(url:string) {
