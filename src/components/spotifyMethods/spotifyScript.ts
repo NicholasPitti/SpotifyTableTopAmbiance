@@ -8,6 +8,14 @@ import { onMounted, render } from 'vue'
 import { h } from 'vue'
 import { CaretRightFilled } from "@ant-design/icons-vue"
 import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
+
+interface QueueTracksData {
+  queues: {
+    [key: string]: string[];
+  };
+}
+const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
+
 //processSporify request is at the top of all Views and lets the code know to populate anything spotify promise related when navigating
 //should i store processed requests?
 //would this be a model or controller?
@@ -92,12 +100,9 @@ const apiDisabled=true
 //allow for drag and drop searched track and reordering queue before issueing queue
 
 function populateWithQueueOptions(accessToken:string){
-  
-  const queueData=queueTracksData.queues;
-  const queueKeys = Object.keys(queueData);
-  console.log(queueKeys)
-  console.log(queueData)
-  const allQueues=queueKeys.map(key => queueData[key as keyof typeof queueData])
+  const queueData=typedQueueTracksData.queues
+  const queueKeys:string[] = Object.keys(queueData);
+  const allQueues=queueKeys.map(key => queueData[key])
   allQueues.forEach(queue => {
     const qContainer = document.createElement("div")
     qContainer.setAttribute('id',`qContainer-${queue}`)
