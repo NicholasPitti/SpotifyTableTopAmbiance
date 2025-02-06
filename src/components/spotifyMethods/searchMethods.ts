@@ -22,10 +22,22 @@ export interface SearchedTracks{
     }
   }
 
-async function searchTrack(accessToken: string, track: string, artist: string): Promise<SearchedTracks> {
+  //option 1 is track search
+  //option 2 is artist search
+async function searchTrack(accessToken: string, track: string, artist: string,option:number): Promise<SearchedTracks> {
     const encodedTrack = encodeURIComponent(track)
+    console.log(encodedTrack)
     const encodedArtist = encodeURIComponent(artist)
-    const url = `https://api.spotify.com/v1/search?q=track:${encodedTrack} artist:${encodedArtist}&type=track`
+    let queryOptions:string=""
+    if(option===0){
+        queryOptions=`track:${encodedTrack}&type=track&limit=20`
+    }else if(option===1){
+        queryOptions=`artist:${encodedArtist}&type=track&limit=20`
+    }else{
+        console.log('invalid option')
+    }
+
+    const url = `https://api.spotify.com/v1/search?q=track:${queryOptions}`
 
     try {
         const result = await fetch(url, {

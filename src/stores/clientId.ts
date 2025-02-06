@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 //object that has state and action
 import clientId from '../../public/clientId.json' assert { type: 'json' }
- const typedClientId:string= clientId[0]
+ const typedClientId:string= clientId["value"]
 
 console.log(clientId)
 export const useClientStore = defineStore('storedClientId', {

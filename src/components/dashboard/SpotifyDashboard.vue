@@ -1,6 +1,43 @@
 <script setup lang="ts">
 import ListPlayable from './ListPlayable.vue';
 import SearchTrackWidget from './SearchTrackWidget.vue';
+//import { useClientStore } from '@/stores/clientId';
+import { useAccessTokenStore } from '@/stores/accessToken';
+//const clientIdStore=useClientStore()
+//const clientId=clientIdStore.storedClientId
+const accesstokenStore=useAccessTokenStore();
+const accessToken=accesstokenStore.storedToken;
+
+import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
+interface QueueTracksData {
+  queues: {
+    [key: string]: string[];
+  };
+}
+const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
+
+const queueData=typedQueueTracksData.queues
+const queueKeys:string[] = Object.keys(queueData);
+console.log(queueKeys+accessToken)  
+  /*
+  const allQueues=queueKeys.map(key => queueData[key])
+  allQueues.forEach(queue => {
+    const qContainer = document.createElement("div")
+    qContainer.setAttribute('id',`qContainer-${queue}`)
+    qContainer.style.paddingBottom='1rem'
+    document.getElementById("pl")?.appendChild(qContainer)
+    queue.forEach(trackID => {
+    //queueTrackDraggable compent so li becomes draggable
+    //might need to use h & render again
+    const listElement = document.createElement("li")
+    document.getElementById(`qContainer-${queue}`)?.appendChild(listElement)
+    listElement.textContent = trackID
+    //document.getElementById("qContainer")?.appendChild(listElement)
+    ///addToQueue(accessToken,trackID)  //l33t
+    });
+  });
+ */ 
+
 
 /*
 
@@ -44,7 +81,7 @@ import SearchTrackWidget from './SearchTrackWidget.vue';
 
 <template>
   <div class="">
-<p>{{counter.count}}</p>
+<p>{{accessToken}}</p>
 <SearchTrackWidget></SearchTrackWidget>
 <ListPlayable></ListPlayable>
   

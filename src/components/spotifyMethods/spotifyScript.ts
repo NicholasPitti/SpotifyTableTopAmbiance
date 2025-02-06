@@ -7,8 +7,12 @@ import { searchTrack, type SearchedTracks, type TrackItems } from './searchMetho
 import { onMounted, render } from 'vue'
 import { h } from 'vue'
 import { CaretRightFilled } from "@ant-design/icons-vue"
-import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
+//import {useAccessTokenStore} from '../../stores/accessToken'
+// @ refers to the src folder
+import { useAccessTokenStore } from '@/stores/accessToken'
+const storedToken=useAccessTokenStore()
 
+import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
 interface QueueTracksData {
   queues: {
     [key: string]: string[];
@@ -23,7 +27,8 @@ export async function processSpotifyRequests(navOption:string){
 const apiDisabled=true; //temporaary var that limits code excecution
 
   onMounted(async () => {
-    const accessToken = localStorage.getItem('access_token')
+    //const accessToken = localStorage.getItem('access_token')
+    const accessToken=storedToken.storedToken
     if (!accessToken) {
       //redirectToAuthCodeFlow(clientId)
     } else {
@@ -62,7 +67,7 @@ const apiDisabled=true; //temporaary var that limits code excecution
          //list existing
       break
       case "/search":
-         const track=await searchTrack(accessToken,"3's & 7's","Queens of the Stone Age")
+         const track=await searchTrack(accessToken,"3's & 7's","Queens of the Stone Age",0)
          //console.log(track)
          populateWithQueryResponse(accessToken, track)         
       break
