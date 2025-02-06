@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CallbackView from '../views/CallbackView.vue' // Create this component
-
+////import { useAccessTokenStore } from '@/stores/accessToken'
+//import { redirectToAuthCodeFlow } from '@/components/spotifyMethods/authorizationMethods'
+////import { useClientStore } from '@/stores/clientId'
 //Modifiactions to the index.ts forces a redirectAuth flow to trigger
 
 const router = createRouter({
@@ -48,4 +50,23 @@ const router = createRouter({
   ]
 })
 
+/*
+router.beforeEach((to,from,next) => {
+  // ✅ This will work because the router starts its navigation after
+  // the router is installed and pinia will be installed too
+  //const store = useUserStore()
+  
+  //const accessTokenStore = useAccessTokenStore()
+  //console.log(accessTokenStore)
+
+})
+*/
+  /*
+  if (!accessTokenStore.storedToken && to.name !== 'Callback') {
+    //await redirectToAuthCodeFlow(clientId.storedClientId)
+    next({ name: 'callback' })
+  } else {
+    next()
+  }
+    */
 export default router

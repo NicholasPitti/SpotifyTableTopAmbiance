@@ -2,16 +2,25 @@
 //import { redirectToAuthCodeFlow } from './authorizationMethods'
 import { getPlaylistCollection, getPlaylistItems, duplicatePlaylist } from './playlistMethods'
 import {type Playlist,type PlaylistTracks,type PlaylistCollection} from './playlistMethods'
-import {addToQueue, startPlayback} from './playbackMethods'
+//import {addToQueue, startPlayback} from './playbackMethods'
 import { searchTrack, type SearchedTracks, type TrackItems } from './searchMethods'
 import { onMounted, render } from 'vue'
 import { h } from 'vue'
 import { CaretRightFilled } from "@ant-design/icons-vue"
 //import {useAccessTokenStore} from '../../stores/accessToken'
 // @ refers to the src folder
+
 import { useAccessTokenStore } from '@/stores/accessToken'
 const storedToken=useAccessTokenStore()
 
+
+/*
+import { redirectToAuthCodeFlow } from './authorizationMethods'
+import { useClientStore } from '@/stores/clientId'
+const clientId=useClientStore()
+await redirectToAuthCodeFlow(clientId.storedClientId)
+*/
+/*
 import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
 interface QueueTracksData {
   queues: {
@@ -19,7 +28,7 @@ interface QueueTracksData {
   };
 }
 const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
-
+*/
 export async function processSpotifyRequests(navOption:string){
   //const clientId = ""
   const playlistId = '3UKLPrFVAO1hsUVeWrYCfK' 
@@ -38,8 +47,9 @@ const apiDisabled=true; //temporaary var that limits code excecution
     const likes=await getProfileLikes(accessToken,0) // gets first 50 items because the offset is 0
     switch(navOption){
       case "/":
-        if(apiDisabled)
-        populateWithQueueOptions(accessToken)
+        if(!apiDisabled)
+        //populateWithQueueOptions(accessToken)
+      console.log("/")
         
       break
       case "/sort":
@@ -79,6 +89,7 @@ const apiDisabled=true; //temporaary var that limits code excecution
 })
 }
 
+/*
 function populateWithQueueOptions(accessToken:string){
   const queueData=typedQueueTracksData.queues
   const queueKeys:string[] = Object.keys(queueData);
@@ -98,9 +109,8 @@ function populateWithQueueOptions(accessToken:string){
     ///addToQueue(accessToken,trackID)  //l33t
     });
   });
-
-
 }
+*/
 
 
 function populateWithPlaylistCollection(accessToken:string|null, playlist:PlaylistCollection) {
@@ -193,10 +203,10 @@ function populateWithPlaylist(accessToken:string|null, playlist:Playlist,dropdow
           if(dropdown){
             console.log("////////////////")
             console.log("dropdown play: "+buttonTrack+" from "+extractedPlaylistId)
-            startPlayback(accessToken,extractedPlaylistId, index,false,buttonTrack)
+            ////startPlayback(accessToken,extractedPlaylistId, index,false,buttonTrack)
           }else{
             //console.log(tracks.track.id)
-            startPlayback(accessToken, '1rjqDQFGg6K6K...',index,true,tracks.track.id)
+            ////startPlayback(accessToken, '1rjqDQFGg6K6K...',index,true,tracks.track.id)
           }
         }
       }   

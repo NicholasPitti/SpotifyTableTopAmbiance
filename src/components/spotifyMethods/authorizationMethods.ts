@@ -1,7 +1,6 @@
 
 const scope = "user-read-private user-read-email user-library-read playlist-read-private user-modify-playback-state playlist-modify-public"
 import { useAccessTokenStore } from '@/stores/accessToken'
-const storeToken = useAccessTokenStore()
 /**
     async checkAndGetAccessToken(){ //refreshing an api call while no acces Token will trigger this.. is there a way to pause that like a modal subroutine?
       if(this.token===0){
@@ -15,15 +14,12 @@ const storeToken = useAccessTokenStore()
       this.token = 
     }
  */
+
+    /*
 export async function getOrRetrieveAccessToken(clientId: string, code: string) {
-    //letoken = localStorage.getItem('access_token')
-            const accessToken = await getAccessToken(clientId, code)
-            //if(typeof accessToken==='string'){
-                storeToken.storedToken=accessToken
-                //localStorage.setItem('access_token', accessToken)
-            //}s
-    return accessToken
+
 }
+*/
 
 export async function redirectToAuthCodeFlow(clientId:string) {
     const verifier = generateCodeVerifier(128)
@@ -63,7 +59,11 @@ export async function generateCodeChallenge(codeVerifier:string) {
         .replace(/=+$/, '')
 }
 
+//This function sets the value of the store and does not return the access token
+//This funciton is called in App.vue to initialize the store
 export async function getAccessToken(clientId:string, code:string) {
+
+    const storeToken = useAccessTokenStore()
     const verifier = localStorage.getItem("verifier")
     const redirectUri = "http://localhost:5173/callback"
 
@@ -91,8 +91,10 @@ export async function getAccessToken(clientId:string, code:string) {
         const data = await response.json()
 
         if (data.access_token) {
-            localStorage.setItem('access_token', data.access_token)
-            return data.access_token
+            const accessToken = data.access_token
+            storeToken.storedToken=accessToken //set store to accessToken
+            console.log(accessToken)
+            console.log(storeToken.storedToken)
         } else {
             throw new Error("No access token in response")
         }
@@ -100,4 +102,5 @@ export async function getAccessToken(clientId:string, code:string) {
         console.error("Error fetching access token:", error)
         throw error
     }
+
 }

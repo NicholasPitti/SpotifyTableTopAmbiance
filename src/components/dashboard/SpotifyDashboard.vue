@@ -2,13 +2,15 @@
 import ListPlayable from './ListPlayable.vue';
 import SearchTrackWidget from './SearchTrackWidget.vue';
 //import { useClientStore } from '@/stores/clientId';
-import { useAccessTokenStore } from '@/stores/accessToken';
+//import { useAccessTokenStore } from '@/stores/accessToken';
+
 //const clientIdStore=useClientStore()
 //const clientId=clientIdStore.storedClientId
-const accesstokenStore=useAccessTokenStore();
-const accessToken=accesstokenStore.storedToken;
 
-import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
+//const accesstokenStore=useAccessTokenStore();
+//const accessToken=accesstokenStore.storedToken;
+/*
+import queueTracksData from '../../../public/queue-tracks.json' with { type: 'json' }
 interface QueueTracksData {
   queues: {
     [key: string]: string[];
@@ -18,7 +20,9 @@ const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksDat
 
 const queueData=typedQueueTracksData.queues
 const queueKeys:string[] = Object.keys(queueData);
-console.log(queueKeys+accessToken)  
+*/
+
+//console.log(queueKeys+accessToken)  
   /*
   const allQueues=queueKeys.map(key => queueData[key])
   allQueues.forEach(queue => {
@@ -81,7 +85,7 @@ console.log(queueKeys+accessToken)
 
 <template>
   <div class="">
-<p>{{accessToken}}</p>
+<p>accessToken here is null until callback</p>
 <SearchTrackWidget></SearchTrackWidget>
 <ListPlayable></ListPlayable>
   

@@ -1,21 +1,23 @@
 <script setup lang="ts">
 import { SearchOutlined } from "@ant-design/icons-vue";
-//import { searchTrack, type SearchedTracks, type TrackItems } from './searchMethods'
-import { searchTrack } from '../spotifyMethods/searchMethods'
+//import { searchTrack, type SearchedTracks, type TrackItems } from '../spotifyMethods/searchMethods'
+import { searchTrack, type SearchedTracks } from '../spotifyMethods/searchMethods'
 import { useAccessTokenStore } from '@/stores/accessToken';
 import { ref } from 'vue';
 const show = ref(false);
-const searchResults = ref('');
+//const searchResults = ref<SearchedTracks|TrackItems|null>(null);
+const searchResults = ref<SearchedTracks|null>(null);
 const accesstokenStore=useAccessTokenStore();
 const accessToken=accesstokenStore.storedToken;
+console.log("finalvar in search component"+accessToken)
+console.log("store in search component"+accesstokenStore.storedToken)
 
 function toggleShow(){
     show.value=!show.value
 }
 
-function searchTracks(){
-    searchResults.value="searched"
-    console.log(searchTrack(accessToken,"Freedom Club","",1));
+async function searchTracks(){
+    searchResults.value= await searchTrack(accessToken,"Freedom Club","",1);
     show.value=true
 }
 
@@ -27,9 +29,11 @@ function searchTracks(){
         <h4>Search Form with placeholder</h4>   <button @click="searchTracks"><SearchOutlined /></button>
         <button @click="toggleShow">Toggle Search Results</button>
         <Transition name="bounce">
-        <p v-if="show" style="text-align: center;">
-           {{searchResults}}
-        </p>
+        <div v-if="show" style="text-align: center;">
+            <div v-for="(tracks,index) in searchResults?.tracks.items" :key="index">
+           {{tracks.name}}
+            </div>
+        </div>
         </Transition>
     </div>
 

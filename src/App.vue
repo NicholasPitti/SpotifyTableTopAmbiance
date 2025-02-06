@@ -2,6 +2,12 @@
 import { RouterLink, RouterView } from 'vue-router'
 import SpotifyDashboard from './components/dashboard/SpotifyDashboard.vue'
 import AuthenticationButtons from './components/dashboard/AuthenticationButtons.vue'
+//on mounted has infinite loop
+/*  
+  if (!accessTokenStore.storedToken) {
+    redirectToAuthCodeFlow(clientStore.storedClientId)
+  }
+*/
 
 </script>
 

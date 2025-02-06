@@ -1,9 +1,11 @@
 // stores/counter.js
 import { defineStore } from 'pinia'
-import { redirectToAuthCodeFlow } from '../components/spotifyMethods/authorizationMethods'
-import { useClientStore } from './clientId'
+//import { redirectToAuthCodeFlow } from '../components/spotifyMethods/authorizationMethods'
+
+
+//import { useClientStore } from './clientId'
 //object that has state and action
-const clientId=useClientStore()
+//const clientId=useClientStore()
 
 
 export const useAccessTokenStore = defineStore('accessToken', {
@@ -11,7 +13,9 @@ export const useAccessTokenStore = defineStore('accessToken', {
     return { storedToken: "" } //this value is only updated in authorizationMethods
   },
   actions: {
+    /*
     async initializeAuth() { //this only ever needs to be called on refresh
+      
       const verifier = localStorage.getItem('verifier')
       if (verifier) {
         try {
@@ -25,6 +29,8 @@ export const useAccessTokenStore = defineStore('accessToken', {
         }
       }
     }
+*/
+
   }
 })
 
