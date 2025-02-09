@@ -9,8 +9,6 @@ const show = ref(false);
 const searchResults = ref<SearchedTracks|null>(null);
 const accesstokenStore=useAccessTokenStore();
 const accessToken=accesstokenStore.storedToken;
-console.log("finalvar in search component"+accessToken)
-console.log("store in search component"+accesstokenStore.storedToken)
 
 function toggleShow(){
     show.value=!show.value

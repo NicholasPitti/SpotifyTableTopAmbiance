@@ -93,8 +93,6 @@ export async function getAccessToken(clientId:string, code:string) {
         if (data.access_token) {
             const accessToken = data.access_token
             storeToken.storedToken=accessToken //set store to accessToken
-            console.log(accessToken)
-            console.log(storeToken.storedToken)
         } else {
             throw new Error("No access token in response")
         }

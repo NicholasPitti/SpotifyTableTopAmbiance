@@ -1,10 +1,20 @@
 // stores/counter.js
 import { defineStore } from 'pinia'
-//object that has state and action
-import clientId from '../../public/clientId.json' assert { type: 'json' }
- const typedClientId:string= clientId["value"]
 
-console.log(clientId)
+//object that has state and action
+//import clientId from '../../public/clientId.json' assert { type: 'json' }
+async function loadClientId() {
+  const response = await fetch('/clientId.json');
+  const data = await response.json();
+  return data;
+}
+
+const typedClientId:string=await loadClientId().then(clientData => {
+  return clientData["value"];
+});
+
+console.log(typedClientId)
+
 export const useClientStore = defineStore('storedClientId', {
   state: () => {
     return { storedClientId: typedClientId } //this value is only updated in authorizationMethods

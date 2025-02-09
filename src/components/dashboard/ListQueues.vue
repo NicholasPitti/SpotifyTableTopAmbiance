@@ -1,16 +1,30 @@
 <script setup lang="ts">
-//trackElement span has trackID <playbackElement,dropdownElement
-//listElememnt li has track names
-//li must contain span?
+//import {ref,toRef} from 'vue'
+import { useAccessTokenStore } from '@/stores/accessToken';
+//import { addToQueue } from '../spotifyMethods/playbackMethods';
+const accesstokenStore=useAccessTokenStore();
+const accessToken=await accesstokenStore.storedToken;
+console.log(accessToken)
+
+/**
+ const props = defineProps<{
+  id: string
+}>()
+
+const playlistIdRef = toRef(props,'id');
+//use client id  or just access token to assign a Interface to a ref
+const playlist = ref<Playlist|null>(null);
+
+playlist.value=await getPlaylistItems(accessToken,playlistIdRef.value)
+ */
+
 </script>
 
 <template>
     <div>
-        GET USERS QUEUES //WOULD ONLY GET THE CURRENT Q WHICH ISNT USEFUL
 
-        GET QUEUES FROM JSON AND LIST
-        UPLOAD TO JSON
-        save a delete feature for later
+       
+
     </div>
 
 </template>

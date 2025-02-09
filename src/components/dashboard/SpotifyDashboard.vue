@@ -85,10 +85,11 @@ const queueKeys:string[] = Object.keys(queueData);
 
 <template>
   <div class="">
-<p>accessToken here is null until callback</p>
 <SearchTrackWidget></SearchTrackWidget>
-<ListPlayable></ListPlayable>
-  
+
+<Suspense>
+<ListPlayable id="1rjqDQFGg6K6KGb72Du7n9"></ListPlayable>
+</Suspense>
   </div>
 </template>
 
