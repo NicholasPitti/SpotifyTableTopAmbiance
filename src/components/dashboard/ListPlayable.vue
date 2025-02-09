@@ -8,7 +8,6 @@ import { getPlaylistItems } from '../spotifyMethods/playlistMethods';
 import { type Playlist } from '../spotifyMethods/playlistMethods';
 //import { type PlaylistTracks } from '../spotifyMethods/playlistMethods';
 
-
 const props = defineProps<{
   id: string
 }>()

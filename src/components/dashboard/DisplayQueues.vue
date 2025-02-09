@@ -1,32 +1,23 @@
 <script setup lang="ts">
-//import {ref,toRef} from 'vue'
+import {toRef} from 'vue'
 import { useAccessTokenStore } from '@/stores/accessToken';
-//import { addToQueue } from '../spotifyMethods/playbackMethods';
 const accesstokenStore=useAccessTokenStore();
 const accessToken=await accesstokenStore.storedToken;
 console.log(accessToken)
 
-/**
  const props = defineProps<{
-  id: string
+  queues: string[]
 }>()
 
-const playlistIdRef = toRef(props,'id');
-//use client id  or just access token to assign a Interface to a ref
-const playlist = ref<Playlist|null>(null);
+const queuesRef = toRef(props,'queues');
 
-playlist.value=await getPlaylistItems(accessToken,playlistIdRef.value)
- */
 
 </script>
 
 <template>
-    <div>
-
-       
-
+    <div v-for="(items,index) in queuesRef" :key="index">
+        {{ items }}
     </div>
-
 </template>
 
 <style scoped>

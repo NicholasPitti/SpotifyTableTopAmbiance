@@ -20,7 +20,8 @@ import { useClientStore } from '@/stores/clientId'
 const clientId=useClientStore()
 await redirectToAuthCodeFlow(clientId.storedClientId)
 */
-/*
+
+
 import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
 interface QueueTracksData {
   queues: {
@@ -28,7 +29,10 @@ interface QueueTracksData {
   };
 }
 const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
-*/
+const queueData=typedQueueTracksData.queues
+const queueKeys:string[] = Object.keys(queueData);
+console.log(queueKeys)
+
 export async function processSpotifyRequests(navOption:string){
   //const clientId = ""
   const playlistId = '3UKLPrFVAO1hsUVeWrYCfK' 

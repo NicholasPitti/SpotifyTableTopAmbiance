@@ -20,8 +20,9 @@ import AuthenticationButtons from './components/dashboard/AuthenticationButtons.
 
       
       <AuthenticationButtons></AuthenticationButtons>
-
+      <Suspense>
       <SpotifyDashboard></SpotifyDashboard>
+      </Suspense>
 
       <div class="wrapper">
         

@@ -1,6 +1,33 @@
 <script setup lang="ts">
-import ListPlayable from './ListPlayable.vue';
+//import ListPlayable from './ListPlayable.vue';
+import {ref} from 'vue'
 import SearchTrackWidget from './SearchTrackWidget.vue';
+import DisplayQueues from './DisplayQueues.vue';
+import queueTracksData from '../../../public/queue-tracks.json' with { type: 'json' }
+import { addToQueue } from '../spotifyMethods/playbackMethods';
+import { useAccessTokenStore } from '@/stores/accessToken';
+const accesstokenStore=useAccessTokenStore();
+const accessToken=await accesstokenStore.storedToken;
+//console.log(accessToken)
+
+
+interface QueueTracksData {
+  queues: {
+    [key: string]: string[];
+  };
+}
+
+const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
+//const queueData=typedQueueTracksData.queues
+
+
+const queueValues:string[] = Object.values(typedQueueTracksData)[0];
+const queueValueRef = ref<string[]>(queueValues);
+//console.log(Object.values(typedQueueTracksData)[0]) //array
+//console.log(queueValueRef.value) // array
+
+
+//console.log(queueKeys.value)
 //import { useClientStore } from '@/stores/clientId';
 //import { useAccessTokenStore } from '@/stores/accessToken';
 
@@ -9,38 +36,6 @@ import SearchTrackWidget from './SearchTrackWidget.vue';
 
 //const accesstokenStore=useAccessTokenStore();
 //const accessToken=accesstokenStore.storedToken;
-/*
-import queueTracksData from '../../../public/queue-tracks.json' with { type: 'json' }
-interface QueueTracksData {
-  queues: {
-    [key: string]: string[];
-  };
-}
-const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
-
-const queueData=typedQueueTracksData.queues
-const queueKeys:string[] = Object.keys(queueData);
-*/
-
-//console.log(queueKeys+accessToken)  
-  /*
-  const allQueues=queueKeys.map(key => queueData[key])
-  allQueues.forEach(queue => {
-    const qContainer = document.createElement("div")
-    qContainer.setAttribute('id',`qContainer-${queue}`)
-    qContainer.style.paddingBottom='1rem'
-    document.getElementById("pl")?.appendChild(qContainer)
-    queue.forEach(trackID => {
-    //queueTrackDraggable compent so li becomes draggable
-    //might need to use h & render again
-    const listElement = document.createElement("li")
-    document.getElementById(`qContainer-${queue}`)?.appendChild(listElement)
-    listElement.textContent = trackID
-    //document.getElementById("qContainer")?.appendChild(listElement)
-    ///addToQueue(accessToken,trackID)  //l33t
-    });
-  });
- */ 
 
 
 /*
@@ -79,17 +74,34 @@ const queueKeys:string[] = Object.keys(queueData);
         const playlists=await getPlaylistCollection(accessToken)
         console.log("@@@@ before populate playlists :"+playlists)
         populateWithPlaylistCollection(accessToken, playlists)
+
+        <Suspense>
+<ListPlayable id="1rjqDQFGg6K6KGb72Du7n9"></ListPlayable>
+</Suspense>
+
+
+
    */ 
+function addToCurrentQueue(){
+  const tracksToQueue=["16obHUJN0KaqVyCaV3GwFX",
+"16obHUJN0KaqVyCaV3GwFX"]
+  tracksToQueue.forEach(element => {
+    addToQueue(accessToken,element)  
+  });
+}
+
 
 </script>
 
 <template>
   <div class="">
-<SearchTrackWidget></SearchTrackWidget>
+<SearchTrackWidget ></SearchTrackWidget>
 
 <Suspense>
-<ListPlayable id="1rjqDQFGg6K6KGb72Du7n9"></ListPlayable>
+<DisplayQueues :queues="queueValueRef"></DisplayQueues>
 </Suspense>
+<p>Selected queues are emited/computed to the dashboard as a parent</p>
+<button @click="addToCurrentQueue">Add To Current Queue</button>
   </div>
 </template>
 
