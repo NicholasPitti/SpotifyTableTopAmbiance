@@ -5,24 +5,42 @@ import SearchTrackWidget from './SearchTrackWidget.vue';
 import DisplayQueues from './DisplayQueues.vue';
 import queueTracksData from '../../../public/queue-tracks.json' with { type: 'json' }
 import { addToQueue } from '../spotifyMethods/playbackMethods';
+import { storeToRefs } from 'pinia';
 import { useAccessTokenStore } from '@/stores/accessToken';
-const accesstokenStore=useAccessTokenStore();
-const accessToken=await accesstokenStore.storedToken;
-//console.log(accessToken)
+import ListPlayable from './ListPlayable.vue';
 
+const {storedToken}=storeToRefs(useAccessTokenStore());
+//const accesstokenStore=useAccessTokenStore();
+//const accessToken=accesstokenStore.storedToken;
+//console.log(accessToken)
 
 interface QueueTracksData {
   queues: {
-    [key: string]: string[];
+    [key: string]: {trackName:string,trackId:string }[];
   };
 }
 
-const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
+const typedQueueTracksData= queueTracksData as unknown  as QueueTracksData;
 //const queueData=typedQueueTracksData.queues
 
+////const queueValues:string[] = Object.values(typedQueueTracksData)[0];
 
-const queueValues:string[] = Object.values(typedQueueTracksData)[0];
-const queueValueRef = ref<string[]>(queueValues);
+//const [queueNames,queueValues]:string[][] = [Object.keys(typedQueueTracksData),Object.values(typedQueueTracksData)];
+//const queueValueRef = ref<string[][]>([queueNames,queueValues]);
+
+
+////const queueNames =Object.keys(typedQueueTracksData);
+////const queueValues =Object.values(typedQueueTracksData)
+////const queueValueRef = ref<string[][]>(queueValues);
+////const queueNamesRef = ref<string[]>(queueNames);
+const queueValueRef = ref<QueueTracksData>(typedQueueTracksData);
+
+
+
+/////console.log(queueValueRef.value.queues.q1)
+
+
+  //#const queueValueRef = ref<string[][]>(typedQueueTracksData);
 //console.log(Object.values(typedQueueTracksData)[0]) //array
 //console.log(queueValueRef.value) // array
 
@@ -82,11 +100,13 @@ const queueValueRef = ref<string[]>(queueValues);
 
 
    */ 
+
+  //add tracks in preliminaryQ object to new Q
 function addToCurrentQueue(){
   const tracksToQueue=["16obHUJN0KaqVyCaV3GwFX",
 "16obHUJN0KaqVyCaV3GwFX"]
   tracksToQueue.forEach(element => {
-    addToQueue(accessToken,element)  
+    addToQueue(storedToken.value,element)  
   });
 }
 
@@ -98,7 +118,10 @@ function addToCurrentQueue(){
 <SearchTrackWidget ></SearchTrackWidget>
 
 <Suspense>
-<DisplayQueues :queues="queueValueRef"></DisplayQueues>
+  <div class="view-container">
+    <ListPlayable  id="1rjqDQFGg6K6KGb72Du7n9"></ListPlayable>
+<DisplayQueues :queues="queueValueRef.queues"></DisplayQueues>
+</div>
 </Suspense>
 <p>Selected queues are emited/computed to the dashboard as a parent</p>
 <button @click="addToCurrentQueue">Add To Current Queue</button>
@@ -107,4 +130,12 @@ function addToCurrentQueue(){
 
 <style scoped>
 
+.view-container{
+    border:solid;
+    border-width: 0.1rem;
+    border-color:#fff;
+    background-color:#1e1e1e;
+    color:#706752;
+    padding:0.5rem;
+}
 </style>

@@ -3,9 +3,10 @@ import { defineStore } from 'pinia'
 
 //object that has state and action
 //import clientId from '../../public/clientId.json' assert { type: 'json' }
+
 async function loadClientId() {
   const response = await fetch('/clientId.json');
-  const data = await response.json();
+  const data = await response.json(); //deserialize
   return data;
 }
 
@@ -13,7 +14,8 @@ const typedClientId:string=await loadClientId().then(clientData => {
   return clientData["value"];
 });
 
-console.log(typedClientId)
+//const typedClientId:string=""
+//console.log(typedClientId)
 
 export const useClientStore = defineStore('storedClientId', {
   state: () => {

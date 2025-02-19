@@ -4,7 +4,7 @@ import { addToPlaylist } from '@/components/spotifyMethods/playlistMethods'
 processSpotifyRequests("/sort")
 
 const accessToken = localStorage.getItem('access_token')
-console.log(accessToken)
+//console.log(accessToken)
 
 type StringDictionary = { [key: string]: string }
 

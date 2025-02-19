@@ -21,7 +21,7 @@ const clientId=useClientStore()
 await redirectToAuthCodeFlow(clientId.storedClientId)
 */
 
-
+//import as js object without explicit deserialization
 import queueTracksData from '../../../public/queue-tracks.json' assert { type: 'json' }
 interface QueueTracksData {
   queues: {

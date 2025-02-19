@@ -13,6 +13,11 @@ export const useAccessTokenStore = defineStore('accessToken', {
     return { storedToken: "" } //this value is only updated in authorizationMethods
   },
   actions: {
+    async getToken() {
+      // If the token is already stored, return it
+      if (this.storedToken) {
+        return this.storedToken;
+      }
     /*
     async initializeAuth() { //this only ever needs to be called on refresh
       
@@ -30,7 +35,7 @@ export const useAccessTokenStore = defineStore('accessToken', {
       }
     }
 */
-
+    }
   }
 })
 

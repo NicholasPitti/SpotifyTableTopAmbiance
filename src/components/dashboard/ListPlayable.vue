@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import {ref,toRef} from 'vue'
+import {ref,toRef} from 'vue';
+import { useAccessTokenStore} from '@/stores/accessToken';
 import PlaylistSortDropdown from './PlaylistSortDropdown.vue';
-import { CaretRightFilled } from "@ant-design/icons-vue" //https://2x.antdv.com/components/icon
-import { useAccessTokenStore } from '@/stores/accessToken';
+import { CaretRightFilled } from "@ant-design/icons-vue"; //https://2x.antdv.com/components/icon
 import { getPlaylistItems } from '../spotifyMethods/playlistMethods';
 //import { getPlaylistCollection } from '../spotifyMethods/playlistMethods';
 import { type Playlist } from '../spotifyMethods/playlistMethods';
@@ -15,12 +15,31 @@ const props = defineProps<{
 const playlistIdRef = toRef(props,'id');
 //use client id  or just access token to assign a Interface to a ref
 const playlist = ref<Playlist|null>(null);
-const accesstokenStore=useAccessTokenStore();
-const accessToken=await accesstokenStore.storedToken;
-playlist.value=await getPlaylistItems(accessToken,playlistIdRef.value)
+//const accesstokenStore=useAccessTokenStore();
 
-//THIS WASNT WORKING UNTIL I CONSOLE>LOGGED **=>only worked when logging token???
+
+//const accessToken=accesstokenStore.storedToken;
 //console.log(accessToken)
+/*
+const {storedToken}=storeToRefs(useAccessTokenStore());
+console.log(storedToken.value)
+playlist.value=await getPlaylistItems(storedToken.value,playlistIdRef.value)
+*/
+
+const accessTokenStore = useAccessTokenStore();
+const accessToken = await accessTokenStore.getToken();
+//console.log(accessToken)
+if (accessToken !== undefined) {
+    playlist.value = await getPlaylistItems(accessToken, playlistIdRef.value);
+}
+
+//4 turn out i need to log it before calling any funcs that use the accessToken
+//3 turns out i do need to log the accesstoken
+//2OK i thought it was becosue of the await, but the store is just not getting accesseed unless i log it...
+//1THIS WASNT WORKING UNTIL I CONSOLE>LOGGED **=>only worked when logging token???
+
+
+
 //console.log(playlist.value)
 
 //const playlist =await getPlaylistCollection(accessToken)
@@ -45,4 +64,5 @@ playlist.value=await getPlaylistItems(accessToken,playlistIdRef.value)
     background-color: hsla(0 0 0 / 0%);
     color:#0a7a55;
 }
+
 </style>
