@@ -11,7 +11,7 @@ async function loadClientId() {
 }
 
 const typedClientId:string=await loadClientId().then(clientData => {
-  return clientData["value"];
+  return clientData["clientID"];
 });
 
 //const typedClientId:string=""

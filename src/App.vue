@@ -36,10 +36,6 @@ import AuthenticationButtons from './components/dashboard/AuthenticationButtons.
         -->
           <RouterLink to="/search">Search</RouterLink>
         </nav>
-        <h1>POPULATE WITH QUEUE ITEMS</h1>
-        <div>Conditionally render queue view</div>
-        <div>Create drag and drop dockable layouts</div>
-        <div>would require an animation so user sees preview and knows they are dragging</div>
 
       </div>
     </div>

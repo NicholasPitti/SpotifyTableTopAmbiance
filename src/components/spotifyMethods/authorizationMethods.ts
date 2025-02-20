@@ -1,4 +1,3 @@
-
 const scope = "user-read-private user-read-email user-library-read playlist-read-private user-modify-playback-state playlist-modify-public"
 import { useAccessTokenStore } from '@/stores/accessToken'
 /**
@@ -92,7 +91,11 @@ export async function getAccessToken(clientId:string, code:string) {
 
         if (data.access_token) {
             const accessToken = data.access_token
-            storeToken.storedToken=accessToken //set store to accessToken
+            storeToken.setAccessToken(accessToken) //set store to accessToken
+            localStorage.removeItem('access_token')
+            console.log(accessToken)
+            console.log("store locally")
+            localStorage.setItem('access_token',accessToken)
         } else {
             throw new Error("No access token in response")
         }

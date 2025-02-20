@@ -4,11 +4,24 @@ import { SearchOutlined } from "@ant-design/icons-vue";
 import { searchTrack, type SearchedTracks } from '../spotifyMethods/searchMethods'
 import { useAccessTokenStore } from '@/stores/accessToken';
 import { ref } from 'vue';
+
+//required so that search results can utilize accessToken
+import App from '../../App.vue'
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+const pinia = createPinia()
+const app = createApp(App)
+app.use(pinia)
+
 const show = ref(false);
 //const searchResults = ref<SearchedTracks|TrackItems|null>(null);
 const searchResults = ref<SearchedTracks|null>(null);
+
+
+
 const accesstokenStore=useAccessTokenStore();
 const accessToken=accesstokenStore.storedToken;
+//console.log(accessToken)
 
 function toggleShow(){
     show.value=!show.value
@@ -24,8 +37,8 @@ async function searchTracks(){
 <template>
 
     <div class="bg-dark">
-        <h4>Search Form with placeholder</h4>   <button @click="searchTracks"><SearchOutlined /></button>
-        <button @click="toggleShow">Toggle Search Results</button>
+        <button @click="searchTracks"><SearchOutlined /></button>
+        <button @click="toggleShow">Toggle Search</button>
         <Transition name="bounce">
         <div v-if="show" style="text-align: center;">
             <div v-for="(tracks,index) in searchResults?.tracks.items" :key="index">
@@ -41,7 +54,7 @@ async function searchTracks(){
 
 <style scoped>
 .bg-dark{
-    background-color: black;
+    
 }
 .playButton{
     /*border: none;*/

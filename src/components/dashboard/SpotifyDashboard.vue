@@ -2,17 +2,26 @@
 //import ListPlayable from './ListPlayable.vue';
 import {ref} from 'vue'
 import SearchTrackWidget from './SearchTrackWidget.vue';
-import DisplayQueues from './DisplayQueues.vue';
+import SavedQueues from './SavedQueues.vue';
 import queueTracksData from '../../../public/queue-tracks.json' with { type: 'json' }
 import { addToQueue } from '../spotifyMethods/playbackMethods';
 import { storeToRefs } from 'pinia';
 import { useAccessTokenStore } from '@/stores/accessToken';
 import ListPlayable from './ListPlayable.vue';
+import NewQueues from './NewQueues.vue';
+
+//required for accessToken store
+import App from '../../App.vue'
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+const pinia = createPinia()
+const app = createApp(App)
+app.use(pinia)
 
 const {storedToken}=storeToRefs(useAccessTokenStore());
 //const accesstokenStore=useAccessTokenStore();
 //const accessToken=accesstokenStore.storedToken;
-//console.log(accessToken)
+//console.log(storedToken.value)
 
 interface QueueTracksData {
   queues: {
@@ -102,7 +111,8 @@ const queueValueRef = ref<QueueTracksData>(typedQueueTracksData);
    */ 
 
   //add tracks in preliminaryQ object to new Q
-function addToCurrentQueue(){
+function queueTracks(){
+  //tracks to queue need to be emitted by the queuelist dropdown selection
   const tracksToQueue=["16obHUJN0KaqVyCaV3GwFX",
 "16obHUJN0KaqVyCaV3GwFX"]
   tracksToQueue.forEach(element => {
@@ -115,16 +125,23 @@ function addToCurrentQueue(){
 
 <template>
   <div class="">
+
 <SearchTrackWidget ></SearchTrackWidget>
 
 <Suspense>
-  <div class="view-container">
-    <ListPlayable  id="1rjqDQFGg6K6KGb72Du7n9"></ListPlayable>
-<DisplayQueues :queues="queueValueRef.queues"></DisplayQueues>
+  <div class="">
+<SavedQueues :queues="queueValueRef.queues"></SavedQueues>
+<span>
+  <button @click="queueTracks">Queue Tracks</button>
+</span>
 </div>
 </Suspense>
-<p>Selected queues are emited/computed to the dashboard as a parent</p>
-<button @click="addToCurrentQueue">Add To Current Queue</button>
+
+<Suspense>
+  <ListPlayable  id="1rjqDQFGg6K6KGb72Du7n9"></ListPlayable>
+</Suspense>
+
+<NewQueues></NewQueues>
   </div>
 </template>
 

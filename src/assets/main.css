@@ -1,7 +1,8 @@
 @import './base.css';
 
 body{
-  background-color: black;
+  background-color: #111828;
+  color:white;
 }
 
 #app {
