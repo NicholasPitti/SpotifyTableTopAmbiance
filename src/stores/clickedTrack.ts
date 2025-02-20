@@ -5,11 +5,14 @@ import { defineStore } from 'pinia'
 
 export const useTrackStore = defineStore('clickedTrack', {
     state: () => {
-      return { track: "" } //this value is only updated in authorizationMethods
+      return { tracks: [] as {trackName: string,trackId: string }[] } //this value is only updated in authorizationMethods
     },
     actions: {
-        setTrack(trackName:string){
-            this.track=trackName
+        addTrack(trackName:string,trackId:string) {
+          this.tracks.push({ trackName: trackName, trackId:trackId })
+        },
+        removeTrack(removedTrack:{ trackName: string, trackId: string }) {
+            this.tracks = this.tracks.filter((t) => t !== removedTrack)
         }
     }
   })

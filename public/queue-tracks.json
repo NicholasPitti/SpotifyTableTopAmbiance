@@ -1,12 +1,14 @@
 {
   "queues":{
-    "q1":[
-      {"trackName":"aaadf","trackID":"bdfsd"},
-      {"trackName":"add","trackID":"bdfd"}
+    "Coldplay":[
+      { "trackName": "Viva La Vida", "trackId": "1mea3bSkSGXuIRvnydlB5b" },
+      { "trackName": "Clocks", "trackId": "0BCPKOYdS2jbQ8iyB56Zns" },
+      { "trackName": "Adventure of a Lifetime", "trackId": "69uxyAqqPIsUyTO8txoP2M" }
     ],
-    "q2":[
-      {"trackName":"aaa","trackID":"ccc"},
-      {"trackName":"bbb","trackID":"ddd"}
+    "Beach Vibes":[
+      { "trackName": "Beach Boy", "trackId": "614o6TSi1ovd5OiMWEBDaC" },
+      { "trackName": "Alchemist", "trackId": "158OK6TQSb8xo1MIJSdxb1" },
+      { "trackName": "Patience", "trackId": "6Bh20JUUsZEHsmMlkMHkRe" }
     ]
   }
 }

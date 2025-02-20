@@ -27,8 +27,9 @@ const playlistNameIdDict:StringDictionary={
 */
 
 
-function addToPlaylistAlert() {
+
   /*
+  function addToPlaylistAlert() {
   const alertMsg="Finalized adding to playlists"
   alert(`Alert: ${alertMsg}!`)
 
@@ -45,15 +46,15 @@ function addToPlaylistAlert() {
       }
     }
   });
-  */
 }
+  */
+
 
 </script>
 
 <template>
   <div class="">
     <section id="profile">
-      <button @click="addToPlaylistAlert">this doesnt do anything in the home view. look at sorttracks vue</button>
       <ul>
         <ul id="pl">
           <li style="list-style-type:none;"><b> PLAYLIST:</b>   </li>

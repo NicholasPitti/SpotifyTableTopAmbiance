@@ -28,9 +28,13 @@ async function searchTrack(accessToken: string, track: string, artist: string,op
     //const track=await searchTrack(accessToken,"3's & 7's","Queens of the Stone Age",0)
     //track="3's & 7's"
     //artist="Queens of the Stone Age"
+    console.log(track)
     const encodedTrack = encodeURIComponent(track)
-    const encodedArtist = encodeURIComponent(artist)
-    let queryOptions=''
+    //const encodedArtist = encodeURIComponent(artist)
+    
+    //let queryOptions=''
+    const queryOptions=`track:${encodedTrack}`
+/*
     if(option===0){
         queryOptions=`track:${encodedTrack}`
     }else if(option===1){
@@ -38,7 +42,11 @@ async function searchTrack(accessToken: string, track: string, artist: string,op
     }else{
         console.log('invalid option')
     }
- const url = `https://api.spotify.com/v1/search?q=${queryOptions}&type=track`
+*/
+
+ console.log(queryOptions)
+    const url = `https://api.spotify.com/v1/search?q=${queryOptions}&type=track&limit=10`
+ //const url = `https://api.spotify.com/v1/search?q=Alchemist&type=track`
 //const url = `https://api.spotify.com/v1/search?q=track:${encodedTrack}%20artist:${encodedArtist}&type=track`
 
     try {
@@ -52,7 +60,6 @@ async function searchTrack(accessToken: string, track: string, artist: string,op
         if (!result.ok) {
             throw new Error(`HTTP error! status: ${result.status}`)
         }
-
         return await result.json()
     } catch (error) {
         console.error("Error fetching track:", error)
