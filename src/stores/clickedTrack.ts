@@ -3,6 +3,8 @@ import { defineStore } from 'pinia'
 //store access token
 //store queuejson data
 
+
+
 export const useTrackStore = defineStore('clickedTrack', {
     state: () => {
       return { tracks: [] as {trackName: string,trackId: string }[] } //this value is only updated in authorizationMethods

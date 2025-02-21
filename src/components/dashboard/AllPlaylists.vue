@@ -12,6 +12,7 @@ console.log(accessToken)
 // populateWithPlaylistCollection
 //playlist:PlaylistCollection)
 
+//called once, if updates are made in spotify app => refresh would be needed
 const playlists=ref<PlaylistCollection>(await getPlaylistCollection(accessToken))
 
 //console.log("playlists:"+playlists.value.items.href)

@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
-import { getPlaylistItems,type Playlist } from '../components/spotifyMethods/playlistMethods';
+//if the store is responsible for triggering api call
+//that would only be due to the fact that the listplaylist component doesnt have a search button
+//although I could use a refresh button
 
-//store access token
-//store queuejson data
 
+//this doesnt store a playlist object but rather a playlistId
 export const usePlaylistStore = defineStore('clickedPlaylist', {
   state: () => {
     return { playlist: "" } //this value is only updated in authorizationMethods
@@ -18,21 +19,3 @@ export const usePlaylistStore = defineStore('clickedPlaylist', {
 
     }
   })
-/*
-    export const useCounterStore = defineStore('clickedPlaylist', () => {
-      //const playlist = ref<Playlist|null>(null);
-      const playlistId=ref('')
-      const accessToken=localStorage.getItem('access_token')
-
-      function setPlaylistId(newPlaylistId:string|null){
-        if(newPlaylistId){
-          playlistId.value=newPlaylistId
-        }  
-      }
-      const playlist = computed(()=>{
-        playlist.value = await getPlaylistItems(accessToken, playlist);
-      })
-    
-      return { playlist,setPlaylistId,setPlaylist }
-    })
-      */

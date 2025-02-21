@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import {ref,toRef} from 'vue';
-import PlaylistSortDropdown from './PlaylistSortDropdown.vue';\
-
+import PlaylistSortDropdown from './PlaylistSortDropdown.vue';
 import { getPlaylistItems } from '../spotifyMethods/playlistMethods';
 //import { getPlaylistCollection } from '../spotifyMethods/playlistMethods';
 import { type Playlist } from '../spotifyMethods/playlistMethods';
 //import { type PlaylistTracks } from '../spotifyMethods/playlistMethods';
-
 import TrackPlayButton from './TrackPlayButton.vue';
+import {ReloadOutlined } from "@ant-design/icons-vue"; //https://2x.antdv.com/components/icon
+
 import { addToPlaylist } from '@/components/spotifyMethods/playlistMethods'
 import { useTrackStore } from '../../stores/clickedTrack'
 import { usePlaylistStore } from '@/stores/clickedPlaylist';
 const trackStore = useTrackStore()
 const playlistStore=usePlaylistStore()
+
+const show = ref(false);
 
 /*
 const props = defineProps<{
@@ -23,9 +25,16 @@ const playlistIdRef = toRef(props,'id');
 */
 
 const playlist = ref<Playlist|null>(null);
-
 const accessToken=localStorage.getItem('access_token')
-playlist.value = await getPlaylistItems(accessToken, playlistStore.playlist);
+
+
+async function refreshTracks(){
+    //console.log(searchTrackName.value)
+    if(accessToken && playlist){
+      playlist.value = await getPlaylistItems(accessToken, playlistStore.playlist);
+    }
+    show.value=true
+}
 
 type StringDictionary = { [key: string]: string }
 
@@ -56,6 +65,7 @@ const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]
           //addToPlaylist(accessToken, playlistNameIdDict[selectedValue], trackIdFromList);
         
         console.log(trackIdFromList)
+        console.log(playlistNameIdDict[selectedValue])
       }
     }
   });
@@ -64,13 +74,13 @@ const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]
 
 
 
-
 ////playlistStore.playlist?.items
 </script>
 
 <template>
 
-    <div class="my-1">
+<ReloadOutlined @click="refreshTracks" class="reload-btn"/>
+    <div class="my-1" v-if="show">
         <div  v-for="(items,index) in playlist?.items" :key="index">
             <button class="mr-1" @click=(trackStore.addTrack(items.track.name,items.track.id))>+</button>
             <span>
@@ -86,6 +96,14 @@ const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]
 
 
 <style scoped>
+.reload-btn{
+    background-color: #fff;
+    margin-right: 1rem;
+    font-size: large;
+    border-radius:0.2rem;
+    padding:0.5rem;
+}
+
 .mt-1{
     margin-top: 1rem;
     margin-bottom: 1rem;
