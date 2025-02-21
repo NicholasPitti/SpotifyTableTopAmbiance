@@ -42,25 +42,23 @@ function toggleShow(){
  */
 
  
-/////const accessToken=localStorage.getItem('access_token')
-
-
+const accessToken=localStorage.getItem('access_token')
 
 //This functions queues tracks from a Queue that already exists in the json file
 function queueTracks(tracks:{trackName:string,trackId:string}[]){
   //tracks to queue need to be emitted by the queuelist dropdown selection
   //console.log(tracks.trackId)
-  tracks.forEach((item)=>{ console.log(item.trackId)})
-
-  /*
-  const tracksToQueue=["16obHUJN0KaqVyCaV3GwFX",
-"16obHUJN0KaqVyCaV3GwFX"]
+  //tracks.forEach((item)=>{ console.log(item.trackId)})
+  
+  //const tracksToQueue=["16obHUJN0KaqVyCaV3GwFX","16obHUJN0KaqVyCaV3GwFX"]
   if(accessToken){
-    tracksToQueue.forEach(element => {
-      addToQueue(accessToken,element)  
-    });
+    tracks.forEach((item)=>{ 
+      addToQueue(accessToken,item.trackId) 
+      console.log(item.trackId)
+    })
+
   }
-*/
+
 
 }
 

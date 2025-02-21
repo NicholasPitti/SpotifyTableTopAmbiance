@@ -93,8 +93,7 @@ export async function getAccessToken(clientId:string, code:string) {
             const accessToken = data.access_token
             storeToken.setAccessToken(accessToken) //set store to accessToken
             localStorage.removeItem('access_token')
-            console.log(accessToken)
-            console.log("store locally")
+            //console.log(accessToken)
             localStorage.setItem('access_token',accessToken)
         } else {
             throw new Error("No access token in response")
