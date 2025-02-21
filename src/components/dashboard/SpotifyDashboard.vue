@@ -6,6 +6,7 @@ import SavedQueues from './SavedQueues.vue';
 import queueTracksData from '../../../public/queue-tracks.json' with { type: 'json' }
 import ListPlayable from './ListPlayable.vue';
 import NewQueues from './NewQueues.vue';
+import AllPlaylists from './AllPlaylists.vue';
 import ToolContainer from './ToolContainer.vue';
 interface QueueTracksData {
   queues: {
@@ -72,9 +73,6 @@ const queueValueRef = ref<QueueTracksData>(typedQueueTracksData);
 
 <template>
   <div class="">
-<ToolContainer title="Search">
-  <SearchTrackWidget ></SearchTrackWidget>
-</ToolContainer>
 
 <Suspense>
   <ToolContainer title="Saved Qeuues">
@@ -82,16 +80,23 @@ const queueValueRef = ref<QueueTracksData>(typedQueueTracksData);
   </ToolContainer>
 </Suspense>
 
+<ToolContainer title="New Queues">
+  <NewQueues></NewQueues>
+</ToolContainer>
+  
+<ToolContainer title="All Playlists">
+  <AllPlaylists></AllPlaylists>
+</ToolContainer>
+
 <Suspense>
   <ToolContainer title="Playlist">
   <ListPlayable  id="1rjqDQFGg6K6KGb72Du7n9"></ListPlayable>
   </ToolContainer>
 </Suspense>
 
-<ToolContainer title="New Queues">
-  <NewQueues></NewQueues>
+<ToolContainer title="Search">
+  <SearchTrackWidget ></SearchTrackWidget>
 </ToolContainer>
-  
   
   </div>
 </template>

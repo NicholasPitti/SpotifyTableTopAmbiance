@@ -1,25 +1,31 @@
 <script setup lang="ts">
 import {ref,toRef} from 'vue';
-import PlaylistSortDropdown from './PlaylistSortDropdown.vue';
+import PlaylistSortDropdown from './PlaylistSortDropdown.vue';\
+
 import { getPlaylistItems } from '../spotifyMethods/playlistMethods';
 //import { getPlaylistCollection } from '../spotifyMethods/playlistMethods';
 import { type Playlist } from '../spotifyMethods/playlistMethods';
 //import { type PlaylistTracks } from '../spotifyMethods/playlistMethods';
+
 import TrackPlayButton from './TrackPlayButton.vue';
 import { addToPlaylist } from '@/components/spotifyMethods/playlistMethods'
 import { useTrackStore } from '../../stores/clickedTrack'
-const store = useTrackStore()
+import { usePlaylistStore } from '@/stores/clickedPlaylist';
+const trackStore = useTrackStore()
+const playlistStore=usePlaylistStore()
 
-
+/*
 const props = defineProps<{
   id: string
 }>()
 
 const playlistIdRef = toRef(props,'id');
+*/
+
 const playlist = ref<Playlist|null>(null);
 
 const accessToken=localStorage.getItem('access_token')
-playlist.value = await getPlaylistItems(accessToken, playlistIdRef.value);
+playlist.value = await getPlaylistItems(accessToken, playlistStore.playlist);
 
 type StringDictionary = { [key: string]: string }
 
@@ -46,7 +52,9 @@ const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]
       trackIdFromList = select.closest('li')?.getAttribute('id'); //
       console.log(trackIdFromList);
       if (selectedValue && trackIdFromList) {
-        //addToPlaylist(accessToken, playlistNameIdDict[selectedValue], trackIdFromList);
+
+          //addToPlaylist(accessToken, playlistNameIdDict[selectedValue], trackIdFromList);
+        
         console.log(trackIdFromList)
       }
     }
@@ -54,13 +62,17 @@ const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]
 
 }
 
+
+
+
+////playlistStore.playlist?.items
 </script>
 
 <template>
 
     <div class="my-1">
         <div  v-for="(items,index) in playlist?.items" :key="index">
-            <button class="mr-1" @click=(store.addTrack(items.track.name,items.track.id))>+</button>
+            <button class="mr-1" @click=(trackStore.addTrack(items.track.name,items.track.id))>+</button>
             <span>
                 {{items.track.name}}
             </span> 
