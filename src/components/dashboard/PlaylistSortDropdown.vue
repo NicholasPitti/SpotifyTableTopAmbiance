@@ -1,10 +1,12 @@
 <script setup lang="ts">
-
+defineProps<{
+  dropDownId: string;
+}>();
 </script>
 
 <template>
     <label for="tabletop">Select playlist:</label>
-    <select name="intensity">
+    <select name="intensity" :id="'dropdown'+dropDownId">
         <optgroup label="Music Intensity">
             <option value="Light">1-Light</option>
             <option value="Adventure">2-Adventure</option>

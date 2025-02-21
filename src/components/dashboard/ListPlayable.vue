@@ -6,6 +6,7 @@ import { getPlaylistItems } from '../spotifyMethods/playlistMethods';
 import { type Playlist } from '../spotifyMethods/playlistMethods';
 //import { type PlaylistTracks } from '../spotifyMethods/playlistMethods';
 import TrackPlayButton from './TrackPlayButton.vue';
+import { addToPlaylist } from '@/components/spotifyMethods/playlistMethods'
 import { useTrackStore } from '../../stores/clickedTrack'
 const store = useTrackStore()
 
@@ -20,7 +21,38 @@ const playlist = ref<Playlist|null>(null);
 const accessToken=localStorage.getItem('access_token')
 playlist.value = await getPlaylistItems(accessToken, playlistIdRef.value);
 
+type StringDictionary = { [key: string]: string }
+
+const playlistNameIdDict:StringDictionary={
+  Light: "4g60dLDke6ZgoGJTR15b7E",
+  Adventure:"5nY0BsxAZC2NA8pNTk6oT5",
+  Sneak:"2monNZRe6ZpMSVbNk8Yjr8",
+  Unknown:"10dsLCsG0WyW2CH3QXNMnz",
+  Combat:"5sARTZvcPl114hXuI8ephI",
+  Epic:"3MmUB7ybRte6AT2ytYRr16",
+  Misc:"4EgbdcV25NI4Qz17X4qTo5"
+}
+
 //const playlist =await getPlaylistCollection(accessToken)
+function addToPlaylistAlert(){
+console.log("add")
+
+const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]');
+  let trackIdFromList: string | null | undefined;
+  dropdowns.forEach((select) => {
+    const selectedValue = select.value;
+    if (selectedValue !== 'None') {
+      console.log("added " + selectedValue);
+      trackIdFromList = select.closest('li')?.getAttribute('id'); //
+      console.log(trackIdFromList);
+      if (selectedValue && trackIdFromList) {
+        //addToPlaylist(accessToken, playlistNameIdDict[selectedValue], trackIdFromList);
+        console.log(trackIdFromList)
+      }
+    }
+  });
+
+}
 
 </script>
 
@@ -33,10 +65,10 @@ playlist.value = await getPlaylistItems(accessToken, playlistIdRef.value);
                 {{items.track.name}}
             </span> 
             <TrackPlayButton :playId="items.track.id"></TrackPlayButton>
-            <PlaylistSortDropdown></PlaylistSortDropdown>
+            <PlaylistSortDropdown :dropDownId="items.track.id"></PlaylistSortDropdown>
         </div>
     </div>
-    <div>-</div>
+    <button @click="addToPlaylistAlert">Add to playlists</button>
 </template>
 
 
