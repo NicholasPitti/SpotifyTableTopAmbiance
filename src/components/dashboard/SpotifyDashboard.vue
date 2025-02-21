@@ -90,7 +90,13 @@ const queueValueRef = ref<QueueTracksData>(typedQueueTracksData);
 
 <Suspense>
   <ToolContainer title="Playlist">
-  <ListPlayable  id="1rjqDQFGg6K6KGb72Du7n9"></ListPlayable>
+  <ListPlayable  :likes=false></ListPlayable>
+  </ToolContainer>
+</Suspense>
+
+<Suspense>
+  <ToolContainer title="Likes">
+  <ListPlayable  :likes=true></ListPlayable>
   </ToolContainer>
 </Suspense>
 

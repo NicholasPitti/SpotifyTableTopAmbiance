@@ -59,6 +59,13 @@ interface newPlaylist{
   id: string
 }
 
+async function getProfileLikes(accessToken:string, offset:number) {
+  const result = await fetch(`https://api.spotify.com/v1/me/tracks?limit=50&offset=${offset}`, {
+    method: "GET", headers: { Authorization: `Bearer ${accessToken}` }
+  })
+
+  return await result.json()
+}
 
 async function getPlaylistCollection(accessToken:string|null):Promise<PlaylistCollection> {
   const result = await fetch("https://api.spotify.com/v1/me/playlists", {
@@ -132,4 +139,4 @@ async function duplicatePlaylist(accessToken:string|null, name:string, playlistI
   return newPlaylist
 }
 
-export { getPlaylistCollection, getPlaylistItems, addToPlaylist, createPlaylist, duplicatePlaylist }
+export { getProfileLikes, getPlaylistCollection, getPlaylistItems, addToPlaylist, createPlaylist, duplicatePlaylist }

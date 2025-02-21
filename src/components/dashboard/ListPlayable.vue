@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import {ref,toRef} from 'vue';
 import PlaylistSortDropdown from './PlaylistSortDropdown.vue';
-import { getPlaylistItems } from '../spotifyMethods/playlistMethods';
+import { getPlaylistItems,addToPlaylist,getProfileLikes } from '../spotifyMethods/playlistMethods';
 //import { getPlaylistCollection } from '../spotifyMethods/playlistMethods';
 import { type Playlist } from '../spotifyMethods/playlistMethods';
 //import { type PlaylistTracks } from '../spotifyMethods/playlistMethods';
 import TrackPlayButton from './TrackPlayButton.vue';
 import {ReloadOutlined } from "@ant-design/icons-vue"; //https://2x.antdv.com/components/icon
 
-import { addToPlaylist } from '@/components/spotifyMethods/playlistMethods'
 import { useTrackStore } from '../../stores/clickedTrack'
 import { usePlaylistStore } from '@/stores/clickedPlaylist';
 const trackStore = useTrackStore()
@@ -16,23 +15,31 @@ const playlistStore=usePlaylistStore()
 
 const show = ref(false);
 
-/*
+
 const props = defineProps<{
-  id: string
+  likes: boolean
 }>()
 
-const playlistIdRef = toRef(props,'id');
-*/
+//const playlistIdRef = toRef(props,'id');
+
 
 const playlist = ref<Playlist|null>(null);
 const accessToken=localStorage.getItem('access_token')
 
+// else if(accessToken && playlist){
+
 
 async function refreshTracks(){
     //console.log(searchTrackName.value)
-    if(accessToken && playlist){
-      playlist.value = await getPlaylistItems(accessToken, playlistStore.playlist);
+    if(accessToken){
+      if(props.likes){
+        playlist.value=await getProfileLikes(accessToken,0); 
+      }
+      else{
+        playlist.value = await getPlaylistItems(accessToken, playlistStore.playlist);
+      }
     }
+
     show.value=true
 }
 
