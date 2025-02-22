@@ -31,13 +31,20 @@ import { RouterLink, RouterView } from 'vue-router'
       </div>
     </div>
   </header>
-  <RouterView />
+  <section class="content">
+    <RouterView />
+  </section>
+  
 </template>
 
 <style scoped>
+.content{
+  min-width:50vw;
+}
 header {
   line-height: 1.5;
   max-height: 100vh;
+  max-width:30vw;
 }
 
 .logo {

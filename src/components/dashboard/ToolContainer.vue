@@ -16,7 +16,7 @@ title:string;
 <template>
     <div class="view-container">
         <MenuOutlined @click="toggleShow" />
-        <h3>{{title}}</h3>
+        <h2>{{title}}</h2>
         <slot v-if="show"></slot>
     </div>
 </template>

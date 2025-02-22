@@ -77,7 +77,7 @@ function queueTracks(tracks:{trackName:string,trackId:string}[]){
   </div>
   <SavedQueuesDropdown :existing-queues="queueKeys" v-model="selectedQueueKey"  @change="handleQueueChange"></SavedQueuesDropdown>
 
-  <div class="" v-for="(items,index) in queuesRef[queueKeys[Number(selectedQueueKey)]]" :key="index">
+  <div class="ml-1" v-for="(items,index) in queuesRef[queueKeys[Number(selectedQueueKey)]]" :key="index">
         {{ items.trackName }}
     </div>
    <button @click="queueTracks(queuesRef[queueKeys[Number(selectedQueueKey)]])" class="queue-btn">Queue Tracks</button>

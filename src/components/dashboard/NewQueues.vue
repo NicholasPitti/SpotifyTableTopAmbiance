@@ -18,8 +18,8 @@ function toggleShowRemoveButtons(){
 <button @click="toggleShowRemoveButtons">Toggle X buttons</button>
     <ul>
       <li v-for="(item,index) in store.tracks" :key="index">
-        <span>{{item}}</span>
         <button v-if="showRemoveButton" @click="removeTodo(item)" class="ml-1"> <span >X</span> </button>
+        <span class="ml-1">{{item}},</span>
       </li>
     </ul>
   </template>
@@ -27,5 +27,8 @@ function toggleShowRemoveButtons(){
  <style scoped >
   .ml-1{
     margin-left:1rem;
+  }
+  ul{
+    list-style-type: none !important ;
   }
 </style>
