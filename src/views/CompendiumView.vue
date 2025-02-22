@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import {processSpotifyRequests} from '../components/spotifyMethods/spotifyScript'
-processSpotifyRequests("/compendium")
+console.log("compendium")
 </script>
 
 <template>
-  <div class="compendium">
+    <section id="compendium">
     <div>page is in development</div>
-</div>
+    </section>
 </template>
 
 <style>

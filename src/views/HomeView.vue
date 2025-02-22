@@ -5,10 +5,10 @@
 
 <template>
   <div class="">
-    <section id="profile">
+    <section id="home">
       <ul>
         <ul id="pl">
-          <li style="list-style-type:none;"><b> PLAYLIST:</b>   </li>
+          <li style="list-style-type:none;">Welcome, please use the navbar to select a tool.</li>
         </ul>
       </ul>
     </section>

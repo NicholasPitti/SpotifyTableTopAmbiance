@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import SpotifyDashboard from './components/dashboard/SpotifyDashboard.vue'
-import AuthenticationButtons from './components/dashboard/AuthenticationButtons.vue'
 //on mounted has infinite loop
 /*  
   if (!accessTokenStore.storedToken) {
@@ -16,18 +14,14 @@ import AuthenticationButtons from './components/dashboard/AuthenticationButtons.
 
     <div style="display:flex; flex-direction:column">
       <RouterLink to="/">
+        Home
       </RouterLink>
       
-      <AuthenticationButtons></AuthenticationButtons>
-
-      <Suspense>
-        <SpotifyDashboard></SpotifyDashboard>
-      </Suspense>
 
       <div class="wrapper">
         
         <nav>
-          <RouterLink to="/">Add Tracks To Queue</RouterLink>
+          <RouterLink to="/spotify-tool">Spotify Tool</RouterLink>
           <RouterLink to="/compendium">Compendium</RouterLink>
         <!-- 
           <RouterLink to="/duplicate">Duplicate Playlist</RouterLink>
