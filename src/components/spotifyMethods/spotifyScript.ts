@@ -12,8 +12,6 @@ import { CaretRightFilled } from "@ant-design/icons-vue"
 
 import { useAccessTokenStore } from '@/stores/accessToken'
 const storedToken=useAccessTokenStore()
-
-
 /*
 import { redirectToAuthCodeFlow } from './authorizationMethods'
 import { useClientStore } from '@/stores/clientId'
@@ -60,6 +58,7 @@ const apiDisabled=true; //temporaary var that limits code excecution
         if(apiDisabled)
         populateWithPlaylist(accessToken, playlistItems,true)
       break
+      /*
       case "/duplicate":
         if(!apiDisabled){
           const newPlaylist=await duplicatePlaylist(accessToken,"newPlaylistTest",playlistItems.items)
@@ -67,6 +66,7 @@ const apiDisabled=true; //temporaary var that limits code excecution
           populateWithPlaylist(accessToken, newplaylistItems)
         }
       break
+      */
       case "/allplaylist":
         if(apiDisabled){
         const playlists=await getPlaylistCollection(accessToken)

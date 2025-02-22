@@ -15,27 +15,18 @@ console.log(accessToken)
 //called once, if updates are made in spotify app => refresh would be needed
 const playlists=ref<PlaylistCollection>(await getPlaylistCollection(accessToken))
 
-//console.log("playlists:"+playlists.value.items.href)
-
-  /*
-  const playlists=await getPlaylistCollection(accessToken)
-  const playlists:PlaylistCollection
-    playlist.items.forEach((playlists:Playlist) => 
-      const listElement = document.createElement("li")
-      //listElement.textContent = playlists.name+playlists.href
-*/
-
 
 /*
-      document.getElementById("pl")?.appendChild(listElement)
-        const playlistIdElement = document.createElement("i")
-        playlistIdElement.setAttribute('id', "pl-id")
-    */
-
-//<button class="mr-1" @click=(store.setPlaylist(getPlaylistId(item.href)))>-></button>
-//FileSearchOutlined @click=(store.setPlaylist(getPlaylistId(item.href)))/> 
-// {{items.items.href}}
-// {{item.items.name}}
+  ///duplicate"  =   ///get all playlists
+      //Name form
+      const newPlaylist=await duplicatePlaylist(accessToken,"newPlaylistTest",playlistItems.items)
+          const newplaylistItems = await getPlaylistItems(accessToken, newPlaylist.id)
+          populateWithPlaylist(accessToken, newplaylistItems)
++++++++++++++++++
+        const playlists=await getPlaylistCollection(accessToken)
+        console.log("@@@@ before populate playlists :"+playlists)
+        populateWithPlaylistCollection(accessToken, playlists)
+*/
 
 function getPlaylistId(url:string|null) {
         const regex = /\/playlists\/([^/?]+)/
@@ -54,6 +45,7 @@ function getPlaylistId(url:string|null) {
             </span> 
         </div>
     </div>
+    <button>Duplicate Playlist</button>
 </template>
 
 <style scoped>

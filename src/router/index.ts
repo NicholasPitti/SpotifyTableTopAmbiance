@@ -20,27 +20,12 @@ const router = createRouter({
       component: CallbackView
     },
     {
-      path: '/duplicate',
-      name: 'duplicate',
+      path: '/compendium',
+      name: 'compendium',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/DuplicateView.vue')
-    },
-    {
-      path: '/allplaylist',
-      name: 'allplaylist',
-      component: () => import('../views/AllPlaylistView.vue')
-    },
-    {
-      path: '/likes',
-      name: 'likes',
-      component: () => import('../views/LikesView.vue')
-    },
-    {
-      path: '/search',
-      name: 'search',
-      component: () => import('../views/SearchView.vue')
+      component: () => import('../views/Compendium.vue')
     },
     {
       path: '/sort',

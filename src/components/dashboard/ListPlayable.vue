@@ -13,7 +13,7 @@ import { usePlaylistStore } from '@/stores/clickedPlaylist';
 const trackStore = useTrackStore()
 const playlistStore=usePlaylistStore()
 
-const show = ref(false);
+const hasNormalFormat = ref(true);
 
 
 const props = defineProps<{
@@ -40,7 +40,7 @@ async function refreshTracks(){
       }
     }
 
-    show.value=true
+    hasNormalFormat.value=true
 }
 
 type StringDictionary = { [key: string]: string }
@@ -82,7 +82,9 @@ const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]
 
 
 ////playlistStore.playlist?.items
-</script>
+/*
+
+
 
 <template>
 
@@ -98,6 +100,62 @@ const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]
         </div>
     </div>
     <button @click="addToPlaylistAlert">Add to playlists</button>
+</template>
+
+
+
+<template>
+
+<ReloadOutlined @click="refreshTracks" class="reload-btn"/>
+    <div class="my-1" v-if="show">
+        <div  v-for="(items,index) in playlist?.items" :key="index">
+            <span>
+               {{ `{ "trackName": "${items.track.name}" , "trackId": "${items.track.id}" }, ` }}  
+              </span> 
+        </div>
+    </div>
+
+</template>
+*/
+
+const hasQueueFormat = ref(false);
+
+function toggleQueueFormat(){
+    hasQueueFormat.value=!hasQueueFormat.value
+}
+
+function toggleNormalFormat(){
+    hasNormalFormat.value=!hasNormalFormat.value
+}
+
+</script>
+
+<template>
+
+  <ReloadOutlined @click="refreshTracks" class="reload-btn"/>
+  <button @click="toggleNormalFormat">Normal Format</button>
+  <button @click="toggleQueueFormat">Queue Format</button>
+      <div class="my-1" v-if="hasNormalFormat">
+          <div  v-for="(items,index) in playlist?.items" :key="index">
+              <button class="mr-1" @click=(trackStore.addTrack(items.track.name,items.track.id))>+</button>
+              <span>
+                  {{items.track.name}}
+              </span> 
+              <TrackPlayButton :playId="items.track.id"></TrackPlayButton>
+              <PlaylistSortDropdown :dropDownId="items.track.id"></PlaylistSortDropdown>
+          </div>
+      </div>
+ 
+    <div class="my-1" v-if="hasQueueFormat">
+        <div  v-for="(items,index) in playlist?.items" :key="index">
+            <span>
+               {{ `{ "trackName": "${items.track.name}" , "trackId": "${items.track.id}" }, ` }}  
+              </span> 
+        </div>
+    </div>
+    <div></div>
+    <button @click="addToPlaylistAlert">Add to playlists</button>
+
 </template>
 
 

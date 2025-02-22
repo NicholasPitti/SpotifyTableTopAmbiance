@@ -13,7 +13,10 @@ playId:string
 function play(){
 //startPlayback(accessToken,extractedPlaylistId, index,false,buttonTrack)
 //startPlayback(accessToken, '1rjqDQFGg6K6K...',index,true,tracks.track.id)
-console.log("play"+props.playId)
+//console.log("play"+props.playId)
+
+//2nd and 3rd arguments arent being used because we have the track id=props.playId
+startPlayback(accessToken, '',0,true,props.playId)
 }
 
 </script>

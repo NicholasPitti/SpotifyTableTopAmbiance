@@ -17,24 +17,21 @@ import AuthenticationButtons from './components/dashboard/AuthenticationButtons.
     <div style="display:flex; flex-direction:column">
       <RouterLink to="/">
       </RouterLink>
-
       
       <AuthenticationButtons></AuthenticationButtons>
+
       <Suspense>
-      <SpotifyDashboard></SpotifyDashboard>
+        <SpotifyDashboard></SpotifyDashboard>
       </Suspense>
 
       <div class="wrapper">
         
         <nav>
           <RouterLink to="/">Add Tracks To Queue</RouterLink>
-          <RouterLink to="/likes">Likes</RouterLink>
-          <RouterLink to="/allplaylist">Playlist Collection</RouterLink>
-          <RouterLink to="/sort">Add Tracks To Playlist</RouterLink>
-        <!-- disabeld for now to avoid crowding
+          <RouterLink to="/compendium">Compendium</RouterLink>
+        <!-- 
           <RouterLink to="/duplicate">Duplicate Playlist</RouterLink>
         -->
-          <RouterLink to="/search">Search</RouterLink>
         </nav>
 
       </div>

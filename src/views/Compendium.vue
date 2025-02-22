@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import {processSpotifyRequests} from '../components/spotifyMethods/spotifyScript'
-processSpotifyRequests("/likes")
+processSpotifyRequests("/compendium")
 </script>
 
 <template>
-  <div class="likes">
-    <section id="profile">
-      <ul>
-        <ul id="pl">
-          <li style="list-style-type:none;"><b> PLAYLIST:</b>   </li>
-        </ul>
-      </ul>
-    </section>
+  <div class="compendium">
+    <div>page is in development</div>
 </div>
 </template>
 
