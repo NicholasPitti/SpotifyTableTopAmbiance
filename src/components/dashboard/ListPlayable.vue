@@ -56,16 +56,17 @@ const playlistNameIdDict:StringDictionary={
 }
 
 //const playlist =await getPlaylistCollection(accessToken)
-async function addToPlaylistAlert(){
+//this works without async and await keywords
+async function sortToPlaylist(){
 console.log("add")
 
 const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]');
-  dropdowns.forEach((select) => {
+  dropdowns.forEach(async (select) => {
     const selectedValue = select.value;
     if (selectedValue !== 'None') {
       console.log("added " + selectedValue);
       if (selectedValue && select) {
-        addToPlaylist(accessToken, playlistNameIdDict[selectedValue], getDropdownId(select.id));
+        await addToPlaylist(accessToken, playlistNameIdDict[selectedValue], getDropdownId(select.id));
       }
     }
   });
@@ -90,12 +91,13 @@ function toggleNormalFormat(){
 
 
 import { duplicatePlaylist } from '../spotifyMethods/playlistMethods';
+
 async function dupePlaylist(){
   ///duplicate"  =   ///get all playlists
-      //Name form
-      //const playlistTracks = playlist.value.items as PlaylistTracks[];
-      //const newPlaylist=await duplicatePlaylist(accessToken,"newPlaylistTest",playlist.value?.items as PlaylistTracks)
-      //console.log(newPlaylist)
+      //do i need to use await here?
+      const playlistTracks = playlist.value?.items as PlaylistTracks[];
+      //playlist object and type should have a name atribute but dont so newPlaylist will be the placeholder name
+      await duplicatePlaylist(accessToken,"newPlaylist",playlistTracks)
     }
 
 
@@ -125,7 +127,7 @@ async function dupePlaylist(){
         </div>
     </div>
     <div></div>
-    <button @click="addToPlaylistAlert">Add to playlists</button>
+    <button @click="sortToPlaylist">Add to playlists</button>
     <button @click="dupePlaylist">Duplicate Playlist</button>
 </template>
 
