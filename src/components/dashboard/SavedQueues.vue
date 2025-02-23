@@ -54,7 +54,7 @@ function queueTracks(tracks:{trackName:string,trackId:string}[]){
   if(accessToken){
     tracks.forEach((item)=>{ 
       addToQueue(accessToken,item.trackId) 
-      console.log(item.trackId)
+      //console.log(item.trackId)
     })
 
   }

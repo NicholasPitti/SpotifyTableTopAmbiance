@@ -1,5 +1,5 @@
 <script setup lang="ts">
-console.log("compendium")
+///console.log("compendium")
 </script>
 
 <template>

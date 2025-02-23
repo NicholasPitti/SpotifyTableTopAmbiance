@@ -7,26 +7,13 @@ import { SearchOutlined } from "@ant-design/icons-vue"; //https://2x.antdv.com/c
 const accessToken = localStorage.getItem('access_token')
 const store = usePlaylistStore()
 
-console.log(accessToken)
+///console.log(accessToken)
 
 // populateWithPlaylistCollection
 //playlist:PlaylistCollection)
 
 //called once, if updates are made in spotify app => refresh would be needed
 const playlists=ref<PlaylistCollection>(await getPlaylistCollection(accessToken))
-
-
-/*
-  ///duplicate"  =   ///get all playlists
-      //Name form
-      const newPlaylist=await duplicatePlaylist(accessToken,"newPlaylistTest",playlistItems.items)
-          const newplaylistItems = await getPlaylistItems(accessToken, newPlaylist.id)
-          populateWithPlaylist(accessToken, newplaylistItems)
-+++++++++++++++++
-        const playlists=await getPlaylistCollection(accessToken)
-        console.log("@@@@ before populate playlists :"+playlists)
-        populateWithPlaylistCollection(accessToken, playlists)
-*/
 
 function getPlaylistId(url:string|null) {
         const regex = /\/playlists\/([^/?]+)/
@@ -45,7 +32,7 @@ function getPlaylistId(url:string|null) {
             </span> 
         </div>
     </div>
-    <button>Duplicate Playlist</button>
+ 
 </template>
 
 <style scoped>

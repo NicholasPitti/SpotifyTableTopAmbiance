@@ -29,7 +29,7 @@ interface QueueTracksData {
 const typedQueueTracksData= queueTracksData.queues as unknown  as QueueTracksData;
 const queueData=typedQueueTracksData.queues
 const queueKeys:string[] = Object.keys(queueData);
-console.log(queueKeys)
+///console.log(queueKeys)
 
 export async function processSpotifyRequests(navOption:string){
   //const clientId = ""
@@ -51,7 +51,7 @@ const apiDisabled=true; //temporaary var that limits code excecution
       case "/":
         if(!apiDisabled)
         //populateWithQueueOptions(accessToken)
-      console.log("/")
+      ///console.log("/")
         
       break
       case "/sort":

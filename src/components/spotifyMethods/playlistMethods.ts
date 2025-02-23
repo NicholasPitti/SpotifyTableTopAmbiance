@@ -84,6 +84,7 @@ async function getPlaylistItems(accessToken:string|null, id:string):Promise<Play
 
 async function addToPlaylist(accessToken:string|null, playlistId:string, trackId:string) {
   const trackUri = "spotify:track:" + trackId
+  console.log(trackId)
   try {
       const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
           method: "POST",

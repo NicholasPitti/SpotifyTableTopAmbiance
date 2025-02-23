@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import {ref,toRef} from 'vue';
+import {ref} from 'vue';
 import PlaylistSortDropdown from './PlaylistSortDropdown.vue';
 import { getPlaylistItems,addToPlaylist,getProfileLikes } from '../spotifyMethods/playlistMethods';
 //import { getPlaylistCollection } from '../spotifyMethods/playlistMethods';
-import { type Playlist } from '../spotifyMethods/playlistMethods';
+import { type Playlist,type PlaylistTracks } from '../spotifyMethods/playlistMethods';
 //import { type PlaylistTracks } from '../spotifyMethods/playlistMethods';
 import TrackPlayButton from './TrackPlayButton.vue';
-import {ReloadOutlined } from "@ant-design/icons-vue"; //https://2x.antdv.com/components/icon
+import {SyncOutlined } from "@ant-design/icons-vue"; //https://2x.antdv.com/components/icon
 
 import { useTrackStore } from '../../stores/clickedTrack'
 import { usePlaylistStore } from '@/stores/clickedPlaylist';
@@ -56,67 +56,27 @@ const playlistNameIdDict:StringDictionary={
 }
 
 //const playlist =await getPlaylistCollection(accessToken)
-function addToPlaylistAlert(){
+async function addToPlaylistAlert(){
 console.log("add")
 
 const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]');
-  let trackIdFromList: string | null | undefined;
   dropdowns.forEach((select) => {
     const selectedValue = select.value;
     if (selectedValue !== 'None') {
       console.log("added " + selectedValue);
-      trackIdFromList = select.closest('li')?.getAttribute('id'); //
-      console.log(trackIdFromList);
-      if (selectedValue && trackIdFromList) {
-
-          //addToPlaylist(accessToken, playlistNameIdDict[selectedValue], trackIdFromList);
-        
-        console.log(trackIdFromList)
-        console.log(playlistNameIdDict[selectedValue])
+      if (selectedValue && select) {
+        addToPlaylist(accessToken, playlistNameIdDict[selectedValue], getDropdownId(select.id));
       }
     }
   });
 
 }
 
-
-
-////playlistStore.playlist?.items
-/*
-
-
-
-<template>
-
-<ReloadOutlined @click="refreshTracks" class="reload-btn"/>
-    <div class="my-1" v-if="show">
-        <div  v-for="(items,index) in playlist?.items" :key="index">
-            <button class="mr-1" @click=(trackStore.addTrack(items.track.name,items.track.id))>+</button>
-            <span>
-                {{items.track.name}}
-            </span> 
-            <TrackPlayButton :playId="items.track.id"></TrackPlayButton>
-            <PlaylistSortDropdown :dropDownId="items.track.id"></PlaylistSortDropdown>
-        </div>
-    </div>
-    <button @click="addToPlaylistAlert">Add to playlists</button>
-</template>
-
-
-
-<template>
-
-<ReloadOutlined @click="refreshTracks" class="reload-btn"/>
-    <div class="my-1" v-if="show">
-        <div  v-for="(items,index) in playlist?.items" :key="index">
-            <span>
-               {{ `{ "trackName": "${items.track.name}" , "trackId": "${items.track.id}" }, ` }}  
-              </span> 
-        </div>
-    </div>
-
-</template>
-*/
+function getDropdownId(url:string) {
+        const regex = /dropdown([^/?]+)/
+        const match = url?.match(regex)
+        return match ? match[1] : ''
+ }
 
 const hasQueueFormat = ref(false);
 
@@ -128,11 +88,22 @@ function toggleNormalFormat(){
     hasNormalFormat.value=!hasNormalFormat.value
 }
 
+
+import { duplicatePlaylist } from '../spotifyMethods/playlistMethods';
+async function dupePlaylist(){
+  ///duplicate"  =   ///get all playlists
+      //Name form
+      //const playlistTracks = playlist.value.items as PlaylistTracks[];
+      //const newPlaylist=await duplicatePlaylist(accessToken,"newPlaylistTest",playlist.value?.items as PlaylistTracks)
+      //console.log(newPlaylist)
+    }
+
+
 </script>
 
 <template>
 
-  <ReloadOutlined @click="refreshTracks" class="reload-btn"/>
+  <SyncOutlined @click="refreshTracks" class="reload-btn"/>
   <button @click="toggleNormalFormat">Normal Format</button>
   <button @click="toggleQueueFormat">Queue Format</button>
       <div class="my-1" v-if="hasNormalFormat">
@@ -155,7 +126,7 @@ function toggleNormalFormat(){
     </div>
     <div></div>
     <button @click="addToPlaylistAlert">Add to playlists</button>
-
+    <button @click="dupePlaylist">Duplicate Playlist</button>
 </template>
 
 
@@ -164,12 +135,12 @@ function toggleNormalFormat(){
 .reload-btn{
     background-color: #fff;
     margin-right: 1rem;
-    font-size: large;
+    font-size: x-large;
     border-radius:0.2rem;
     padding:0.5rem;
 }
 
-.mt-1{
+.my-1{
     margin-top: 1rem;
     margin-bottom: 1rem;
 }

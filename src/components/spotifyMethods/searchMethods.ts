@@ -28,7 +28,7 @@ async function searchTrack(accessToken: string, track: string, artist: string,op
     //const track=await searchTrack(accessToken,"3's & 7's","Queens of the Stone Age",0)
     //track="3's & 7's"
     //artist="Queens of the Stone Age"
-    console.log(track)
+    ///console.log(track)
     const encodedTrack = encodeURIComponent(track)
     //const encodedArtist = encodeURIComponent(artist)
     
@@ -44,7 +44,7 @@ async function searchTrack(accessToken: string, track: string, artist: string,op
     }
 */
 
- console.log(queryOptions)
+ ///console.log(queryOptions)
     const url = `https://api.spotify.com/v1/search?q=${queryOptions}&type=track&limit=10`
  //const url = `https://api.spotify.com/v1/search?q=Alchemist&type=track`
 //const url = `https://api.spotify.com/v1/search?q=track:${encodedTrack}%20artist:${encodedArtist}&type=track`

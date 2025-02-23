@@ -17,9 +17,9 @@ const newSearch = ref('')
 const searchTrackName = ref('')
 
 async function searchTracks(){
-    console.log(searchTrackName.value)
+    //console.log(searchTrackName.value)
     searchTrackName.value=newSearch.value
-    console.log(searchTrackName.value)
+    //console.log(searchTrackName.value)
     if(accessToken){
         searchResults.value= await searchTrack(accessToken,searchTrackName.value,"",1);
     }
