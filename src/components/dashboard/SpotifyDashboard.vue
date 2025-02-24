@@ -22,16 +22,6 @@ const queueValueRef = ref<QueueTracksData>(typedQueueTracksData);
 <template>
   <div class="">
 
-<Suspense>
-  <ToolContainer title="Saved Qeuues">
-<SavedQueues :queues="queueValueRef.queues"></SavedQueues>
-  </ToolContainer>
-</Suspense>
-
-<ToolContainer title="New Queues">
-  <NewQueues></NewQueues>
-</ToolContainer>
-  
 <ToolContainer title="All Playlists">
   <AllPlaylists></AllPlaylists>
 </ToolContainer>
@@ -51,6 +41,17 @@ const queueValueRef = ref<QueueTracksData>(typedQueueTracksData);
 <ToolContainer title="Search">
   <SearchTrackWidget ></SearchTrackWidget>
 </ToolContainer>
+
+<Suspense>
+  <ToolContainer title="Saved Qeuues">
+<SavedQueues :queues="queueValueRef.queues"></SavedQueues>
+  </ToolContainer>
+</Suspense>
+
+<ToolContainer title="New Queues">
+  <NewQueues></NewQueues>
+</ToolContainer>
+
   
   </div>
 </template>

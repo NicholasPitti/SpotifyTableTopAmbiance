@@ -13,8 +13,9 @@ import { usePlaylistStore } from '@/stores/clickedPlaylist';
 const trackStore = useTrackStore()
 const playlistStore=usePlaylistStore()
 
-const hasNormalFormat = ref(true);
-
+const showActionFormat = ref(true);
+const showQueueFormat = ref(false);
+const showNameFormat = ref(false);
 
 const props = defineProps<{
   likes: boolean
@@ -40,7 +41,7 @@ async function refreshTracks(){
       }
     }
 
-    hasNormalFormat.value=true
+    showActionFormat.value=true
 }
 
 type StringDictionary = { [key: string]: string }
@@ -73,32 +74,41 @@ const dropdowns = document.querySelectorAll<HTMLSelectElement>('[id^="dropdown"]
 
 }
 
+
+
+const playlistTracks = ref<PlaylistTracks[]|undefined>(playlist.value?.items);
+
+import { duplicatePlaylist } from '../spotifyMethods/playlistMethods';
+
+
+async function dupePlaylist(){
+  ///duplicate"  =   ///get all playlists
+      //do i need to use await here?
+          //const playlistTracks = playlist.value?.items as PlaylistTracks[];
+      //playlist object and type should have a name atribute but dont so newPlaylist will be the placeholder name
+      
+      if(playlistTracks.value)
+      await duplicatePlaylist(accessToken,"newPlaylist",playlistTracks.value);
+}
+
+
+function toggleQueueFormat(){
+    showQueueFormat.value=!showQueueFormat.value
+}
+
+function toggleActionFormat(){
+    showActionFormat.value=!showActionFormat.value
+}
+
+function toggleNameFormat(){
+  showNameFormat.value=!showNameFormat.value
+}
+
 function getDropdownId(url:string) {
         const regex = /dropdown([^/?]+)/
         const match = url?.match(regex)
         return match ? match[1] : ''
  }
-
-const hasQueueFormat = ref(false);
-
-function toggleQueueFormat(){
-    hasQueueFormat.value=!hasQueueFormat.value
-}
-
-function toggleNormalFormat(){
-    hasNormalFormat.value=!hasNormalFormat.value
-}
-
-
-import { duplicatePlaylist } from '../spotifyMethods/playlistMethods';
-
-async function dupePlaylist(){
-  ///duplicate"  =   ///get all playlists
-      //do i need to use await here?
-      const playlistTracks = playlist.value?.items as PlaylistTracks[];
-      //playlist object and type should have a name atribute but dont so newPlaylist will be the placeholder name
-      await duplicatePlaylist(accessToken,"newPlaylist",playlistTracks)
-    }
 
 
 </script>
@@ -106,26 +116,37 @@ async function dupePlaylist(){
 <template>
 
   <SyncOutlined @click="refreshTracks" class="reload-btn"/>
-  <button @click="toggleNormalFormat">Normal Format</button>
+  <button @click="toggleActionFormat">Action Format</button>
   <button @click="toggleQueueFormat">Queue Format</button>
-      <div class="my-1" v-if="hasNormalFormat">
+  <button @click="toggleNameFormat">Name Format</button>
+      <div class="my-1" v-if="showActionFormat">
           <div  v-for="(items,index) in playlist?.items" :key="index">
               <button class="mr-1" @click=(trackStore.addTrack(items.track.name,items.track.id))>+</button>
               <span>
-                  {{items.track.name}}
+                  {{items.track.name}}-{{  }}
               </span> 
               <TrackPlayButton :playId="items.track.id"></TrackPlayButton>
               <PlaylistSortDropdown :dropDownId="items.track.id"></PlaylistSortDropdown>
           </div>
       </div>
  
-    <div class="my-1" v-if="hasQueueFormat">
+    <div class="my-1" v-if="showQueueFormat">
         <div  v-for="(items,index) in playlist?.items" :key="index">
             <span>
                {{ `{ "trackName": "${items.track.name}" , "trackId": "${items.track.id}" }, ` }}  
               </span> 
         </div>
     </div>
+
+    <div class="my-1" v-if="showNameFormat">
+        <div  v-for="(items,index) in playlist?.items" :key="index">
+            <span>
+               {{items.track.name}} - {{ items.track.artists[0].name }} 
+              </span> 
+        </div>
+    </div>
+
+
     <div></div>
     <button @click="sortToPlaylist">Add to playlists</button>
     <button @click="dupePlaylist">Duplicate Playlist</button>
